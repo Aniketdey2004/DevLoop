@@ -29,11 +29,15 @@ const userSchema=new mongoose.Schema({
     },
     location:{
         type:String,
+        default:"Earth"
+    },
+    about:{
+        type:String,
         default:""
     },
-    bio:{
+    headline:{
         type:String,
-        default:"Hey, I am using DevLoop"
+        default:"Hey! I am using DevLoop"
     },
     githubUrl:String,
     skills:[String],

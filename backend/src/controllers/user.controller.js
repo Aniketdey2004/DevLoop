@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const getSuggestedConnections=async(req,res)=>{
     try{
@@ -29,14 +30,15 @@ export const getPublicProfile=async(req,res)=>{
     }
 };
 
-//review it later might have bugs
+//review it later might require changes
 export const updateProfile=async(req,res)=>{
     try{
         const {username,email}=req.body;
         const user=await User.exists({
+           _id:{$ne:req.user._id},
             $or:[
                 {username},
-                {email}
+                {email},
             ]
         });
         if(user){
@@ -57,11 +59,21 @@ export const updateProfile=async(req,res)=>{
         ];
         const updatedBody={};
         for(const field of allowedFields){
-            if(req.body[field]){
+            if(req.body[field]!==undefined){
                 updatedBody[field]=req.body[field];
             }
         }
-        //todo:if img change in profile or banner then cloudinary upload
+        const {profilePic, bannerImg}=req.body;
+        if(profilePic){
+            const profileImgResponse=await cloudinary.uploader.upload(profilePic);
+            updatedBody["profilePic"]=profileImgResponse.secure_url;
+        }
+
+        if(bannerImg){
+            const bannerImgResponse=await cloudinary.uploader.upload(bannerImg);
+            updatedBody["bannerImg"]=bannerImgResponse.secure_url;
+        }
+
         const updatedUser=await User.findByIdAndUpdate(req.user._id,{$set:updatedBody},{new:true}).select("-password");
 
         res.status(200).json(updatedUser);

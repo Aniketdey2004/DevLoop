@@ -1,6 +1,8 @@
 import { generateWebToken } from "../lib/utils.js";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
+import { ENV } from "../lib/env.js";
+import { sendWelcomeMail } from "../emails/emailHandler.js";
 
 export const signup= async(req,res)=>{
     const {name, username, email, password}=req.body;
@@ -45,7 +47,14 @@ export const signup= async(req,res)=>{
             name:newUser.name,
             email:newUser.email
         });
-        //todo send welcome email
+
+        const profileUrl=ENV.CLIENT_URL+"/profile/"+newUser.username;
+        try{
+            await sendWelcomeMail(newUser.name,newUser.email,profileUrl);
+        }
+        catch(emailError){
+            console.log("Error in sending welcome email:",emailError);
+        }
     }
     catch(error){
         console.log("error in signup controller",error);

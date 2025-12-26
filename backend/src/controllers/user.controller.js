@@ -1,16 +1,16 @@
 import User from "../models/User.js";
 import cloudinary from "../lib/cloudinary.js";
 
-export const getSuggestedConnections=async(req,res)=>{
+export const getSuggestedAccounts=async(req,res)=>{
     try{
-        const connections=req.user.connections;
-        const suggestedConnections=await User.find({
+        const followers=req.user.followers;
+        const suggestedAccounts=await User.find({
             _id:{
                 $ne:req.user._id,
-                $nin:connections
+                $nin:followers
             }
         }).select("name username headline profilePic").limit(5);
-        res.status(200).json(suggestedConnections);
+        res.status(200).json(suggestedAccounts);
     }
     catch(error){
         console.log("error in getSuggestedConnections controller",error);

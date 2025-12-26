@@ -60,7 +60,7 @@ const userSchema=new mongoose.Schema({
             Grade:String
         }
     ],
-    connections:[
+    followers:[
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:"User"

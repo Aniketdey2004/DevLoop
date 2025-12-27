@@ -22,6 +22,10 @@ const notificationSchema=new mongoose.Schema({
     read:{
         type:Boolean,
         default:false
+    },
+    requestId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"CollabRequest"
     }
 },{
     timestamps:true

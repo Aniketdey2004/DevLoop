@@ -55,7 +55,6 @@ export const updateProfile=async(req,res)=>{
             "skills",
             "experience",
             "education",
-            "projects"
         ];
         const updatedBody={};
         for(const field of allowedFields){
@@ -80,6 +79,63 @@ export const updateProfile=async(req,res)=>{
     }
     catch(error){
         console.log("error in updateProfile controller",error);
+        res.status(500).json({message:"Internal Server Error"});
+    }
+};
+
+
+export const followUser=async(req,res)=>{
+    const userId=req.params._id;
+    try {
+        if(req.user.following.includes(userId))
+        {
+            return res.status(400).json({message:"You already follow"});
+        }
+        const user=await User.exists({_id:userId});
+        if(!user){
+            return res.status(404).json({message:"User not found"});
+        }
+        await User.findByIdAndUpdate(req.user._id,{$addToSet:{following:userId}});
+        const followedUser=await user.findByIdAndUpdate(userId,{$addToSet:{followers:req.user._id}});
+        res.status(200).json({message:`Followed ${followUser.username}`});
+
+    } catch (error) {
+        console.log("Error in followUser controller",error);
+        res.status(500).json({message:"Internal Server Error"});
+    }
+};
+
+export const unfollowUser=async(req,res)=>{
+    const userId=req.params._id;
+    try {
+        if(!req.user.following.includes(userId)){
+            return res.status(400).json({message:"You don't follow these user"});
+        }
+        await User.findByIdAndUpdate(req.user._id,{$pull:{following:userId}});
+        await User.findByIdAndUpdate(userId,{$pull:{followers:req.user._id}});
+        res.status(200).json({message:"Unfollowed User"});
+    } catch (error) {
+        console.log("Error in unfollow Controller",error);
+        res.status(500).json({message:"Internal Server Error"});
+    }
+};
+
+export const getFollowers=async(req,res)=>{
+    try {
+        const followers=await User.find({_id:{$in:req.user.followers}}).select("name username profilePic headline");
+        res.status(200).json(followers);
+    } catch (error) {
+        console.log("Error in getFollowers controller",error);
+        res.status(500).json({message:"Internal Server Error"});
+    }
+};
+
+export const getFollowing=async(req,res)=>{
+    try {
+        const following=await User.find({_id:{$in:req.user.following}}).select("name username profilePic headline");
+        res.status(200).json(following);
+    } catch (error) {
+        console.log("Error in getFollowing controller",error);
         res.status(500).json({message:"Internal Server Error"});
     }
 };

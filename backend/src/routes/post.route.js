@@ -5,11 +5,11 @@ import { getPostFeed, createPost, deletePost, getPost, createComment, likePost} 
 
 const router=express.Router();
 
-router.get("/feed", protectRoute, getPostFeed);//ok
-router.post("/create",protectRoute,createPost);//ok
+router.get("/feed", protectRoute, getPostFeed);
+router.post("/create",protectRoute,createPost);
 router.delete("/:id",protectRoute, deletePost);
-router.get("/:id",protectRoute, getPost);//ok
-router.post("/:id/comment",protectRoute,createComment);//ok
+router.get("/:id",protectRoute, getPost);
+router.post("/:id/comment",protectRoute,createComment);
 router.post("/:id/like",protectRoute, likePost);
 
 export default router;

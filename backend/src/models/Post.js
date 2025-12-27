@@ -28,7 +28,7 @@ const postSchema=new mongoose.Schema({
         }
     ],
     project:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId, //if collab related post
         ref:"Project"
     }
 },

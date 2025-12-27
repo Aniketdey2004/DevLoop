@@ -5,7 +5,7 @@ import Notification from "../models/Notification.js";
 export const getPostFeed = async (req, res) => {
   try {
     const feedPosts = await Post.find({
-      author: { $in: [...req.user.followers, req.user._id] },
+      author: { $in: [...req.user.following, req.user._id] },
     })
       .populate("author", "name profilePic headline username")
       .populate("likes", "name profilePic headline username")

@@ -21,7 +21,7 @@ export const protectRoute=async(req,res,next)=>{
         }
 
         const userId=decoded.userId;
-        const user=await User.findById(userId).select("-password");
+        const user=await User.findById(userId).select("-password").populate("projects");
         if(!user){
             return res.status(404).json({message:"User does not exist"});
         }

@@ -3,11 +3,11 @@ import cloudinary from "../lib/cloudinary.js";
 
 export const getSuggestedAccounts=async(req,res)=>{
     try{
-        const followers=req.user.followers;
+        const following=req.user.following;
         const suggestedAccounts=await User.find({
             _id:{
                 $ne:req.user._id,
-                $nin:followers
+                $nin:following
             }
         }).select("name username headline profilePic").limit(5);
         res.status(200).json(suggestedAccounts);
@@ -21,7 +21,7 @@ export const getSuggestedAccounts=async(req,res)=>{
 export const getPublicProfile=async(req,res)=>{
     try{
         const {username}=req.params;
-        const user=await User.findOne({username}).select("-password");
+        const user=await User.findOne({username}).select("-password").populate("projects","title description gihtubRepo liveUrl");
         res.status(200).json(user);
     }   
     catch(error){

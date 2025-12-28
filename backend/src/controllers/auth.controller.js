@@ -7,7 +7,7 @@ import { sendWelcomeMail } from "../emails/emailHandler.js";
 export const signup= async(req,res)=>{
     const {name, username, email, password}=req.body;
     try{
-        if(!name || !username || !email || !password){
+        if(!name?.trim() || !username?.trim() || !email || !password){
             return res.status(400).json({message:"All fields are required"});
         }
         if(password.length<6){
@@ -68,7 +68,7 @@ export const signup= async(req,res)=>{
 export const login=async(req,res)=>{
     const {username,password}=req.body;
     try{
-        if(!username || !password){
+        if(!username?.trim() || !password?.trim()){
             return res.status(400).json({message:"All fields are required"});
         }
 

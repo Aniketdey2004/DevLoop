@@ -9,7 +9,6 @@ export const createProject = async (req, res) => {
       techStack,
       githubRepo,
       liveUrl,
-      openRoles,
       status,
       requireCollaborators,
     } = req.body;
@@ -20,9 +19,7 @@ export const createProject = async (req, res) => {
       requireCollaborators === undefined ||
       !githubRepo?.trim() ||
       !Array.isArray(techStack) ||
-      techStack.length === 0 ||
-      (requireCollaborators === true &&
-        (!Array.isArray(openRoles) || openRoles.length === 0))
+      techStack.length === 0 
     ) {
       return res
         .status(400)
@@ -36,16 +33,12 @@ export const createProject = async (req, res) => {
         });
     }
 
-    if(requireCollaborators===false && (Array.isArray(openRoles) && openRoles.length!==0) && status==="active"){
-      return res.status(400).json({message:"You cannot have open roles if you don't need Collaborators"});
-    }
     const newProject = new Project({
       title,
       description,
       techStack,
       githubRepo,
       liveUrl: liveUrl?.trim() || "",
-      openRoles:openRoles || [],
       status,
       requireCollaborators,
     });
@@ -104,7 +97,6 @@ export const editProject=async(req,res)=>{
           "techStack",
           "githubRepo",
           "liveUrl",
-          "openRoles",
           "status",
           "requireCollaborators"
         ];

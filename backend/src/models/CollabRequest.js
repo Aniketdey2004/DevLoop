@@ -13,12 +13,11 @@ const collabRequestSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
     },
-    role:String,
     status:{
         type:String,
         enum:["pending","accepted","rejected"]
     }
-});
+},{timestamps:true});
 
 const CollabRequest=mongoose.model("CollabRequest",collabRequestSchema);
 export default CollabRequest;

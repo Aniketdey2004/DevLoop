@@ -13,7 +13,7 @@ const notificationSchema=new mongoose.Schema({
     },
     type:{
         type:String,
-        enum:["like","comment","follow","collabAccepted","collabRequest"]
+        enum:["like","comment","follow","collabAccepted","collabRejected"]
     },
     relatedPost:{
         type:mongoose.Schema.Types.ObjectId,
@@ -23,9 +23,9 @@ const notificationSchema=new mongoose.Schema({
         type:Boolean,
         default:false
     },
-    requestId:{
+    projectId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"CollabRequest"
+        ref:"Project"
     }
 },{
     timestamps:true

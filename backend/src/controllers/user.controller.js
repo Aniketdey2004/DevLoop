@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import cloudinary from "../lib/cloudinary.js";
+import Notification from "../models/Notification.js";
 
 export const getSuggestedAccounts=async(req,res)=>{
     try{
@@ -89,14 +90,20 @@ export const followUser=async(req,res)=>{
     try {
         if(req.user.following.includes(userId))
         {
-            return res.status(400).json({message:"You already follow"});
+            return res.status(409).json({message:"You already follow"});
         }
         const user=await User.exists({_id:userId});
         if(!user){
             return res.status(404).json({message:"User not found"});
         }
         await User.findByIdAndUpdate(req.user._id,{$addToSet:{following:userId}});
-        const followedUser=await user.findByIdAndUpdate(userId,{$addToSet:{followers:req.user._id}});
+        await User.findByIdAndUpdate(userId,{$addToSet:{followers:req.user._id}});
+        const newNotification=new Notification({
+            recipient:userId,
+            relatedUser:req.user._id,
+            type:"follow"
+        });
+        await newNotification.save();
         res.status(200).json({message:`Followed ${followUser.username}`});
 
     } catch (error) {
@@ -109,7 +116,7 @@ export const unfollowUser=async(req,res)=>{
     const userId=req.params._id;
     try {
         if(!req.user.following.includes(userId)){
-            return res.status(400).json({message:"You don't follow these user"});
+            return res.status(409).json({message:"You don't follow these user"});
         }
         await User.findByIdAndUpdate(req.user._id,{$pull:{following:userId}});
         await User.findByIdAndUpdate(userId,{$pull:{followers:req.user._id}});

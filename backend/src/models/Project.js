@@ -22,7 +22,6 @@ const projectSchema=new mongoose.Schema({
             ref:"User"
         }
     ],
-    openRoles:[String],
     status:{
         type:String,
         enum:["active","completed"]

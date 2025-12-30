@@ -1,0 +1,46 @@
+<svg
+  width="170"
+  height="40"
+  viewBox="0 0 170 40"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- Loop Icon -->
+  <circle
+    cx="20"
+    cy="20"
+    r="16"
+    stroke="#10B981"
+    stroke-width="3"
+    stroke-dasharray="70 30"
+    stroke-linecap="round"
+  />
+
+  <!-- Code Brackets -->
+  <path
+    d="M14 13L10 20L14 27"
+    stroke="#10B981"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M26 13L30 20L26 27"
+    stroke="#10B981"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- Text: DevLoop (Attached) -->
+  <text
+    x="45"
+    y="26"
+    font-size="22"
+    font-weight="600"
+    font-family="Inter, system-ui, sans-serif"
+    fill="#065F46"
+  >
+    Dev<tspan fill="#10B981">Loop</tspan>
+  </text>
+</svg>

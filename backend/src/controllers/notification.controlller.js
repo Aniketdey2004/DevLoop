@@ -3,7 +3,7 @@ import Notification from "../models/Notification.js";
 export const getAllNotifications = async (req, res) => {
   try {
     const notifications = await Notification.find({ recipient: req.user._id })
-      .populate("relatedUser", "name username profilePic")
+      .populate("relatedUser", "username headline profilePic")
       .populate("relatedPost", "content image");
     res.status(200).json(notifications);
   } catch (error) {

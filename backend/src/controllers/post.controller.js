@@ -7,9 +7,9 @@ export const getPostFeed = async (req, res) => {
     const feedPosts = await Post.find({
       author: { $in: [...req.user.following, req.user._id] },
     })
-      .populate("author", "name profilePic headline username")
-      .populate("likes", "name profilePic headline username")
-      .populate("comments.user", "name profilePic username headline")
+      .populate("author", "profilePic headline username")
+      .populate("likes", "profilePic headline username")
+      .populate("comments.user", "profilePic username headline")
       .populate("project", "title description techStack openRoles githubRepo")
       .sort({ createdAt: -1 });
 
@@ -88,9 +88,9 @@ export const getPost = async (req, res) => {
   try {
     const postId = req.params.id;
     const post = await Post.findById(postId)
-      .populate("author", "name username profilePic headline")
-      .populate("likes", "name username profilePic headline")
-      .populate("comments.user", "name username headline profilePic")
+      .populate("author", "username profilePic headline")
+      .populate("likes", "username profilePic headline")
+      .populate("comments.user", "username headline profilePic")
       .populate("project", "title description techStack openRoles githubRepo");
 
     if (!post) {
@@ -121,9 +121,9 @@ export const createComment = async (req, res) => {
       { $push: { comments: comment } },
       { new: true }
     )
-      .populate("author", "name username profilePic headline")
-      .populate("likes", "name username profilePic headline")
-      .populate("comments.user", "name username headline profilePic");
+      .populate("author", "username profilePic headline")
+      .populate("likes", "username profilePic headline")
+      .populate("comments.user", "username headline profilePic");
 
     if (!post) {
       return res.status(404).json({ message: "Post does not exist" });
@@ -155,9 +155,9 @@ export const likePost = async (req, res) => {
       { $addToSet: { likes: userId } },
       { new: true }
     )
-      .populate("author", "name username profilePic headline")
-      .populate("likes", "name username profilePic headline")
-      .populate("comments.user", "name username headline profilePic");
+      .populate("author", "username profilePic headline")
+      .populate("likes", "username profilePic headline")
+      .populate("comments.user", "username headline profilePic");
 
     if (post) {
       if (post.author._id.toString() !== req.user._id.toString()) {
@@ -177,9 +177,9 @@ export const likePost = async (req, res) => {
       { $pull: { likes: userId } },
       { new: true }
     )
-      .populate("author", "name username profilePic headline")
-      .populate("likes", "name username profilePic headline")
-      .populate("comments.user", "name username headline profilePic");
+      .populate("author", "username profilePic headline")
+      .populate("likes", "username profilePic headline")
+      .populate("comments.user", "username headline profilePic");
 
     if(!post){
       return res.status(404).json({message:"Post does not exist"});

@@ -114,7 +114,7 @@ export const rejectCollabRequest=async(req,res)=>{
 
 export const getCollabRequests=async(req,res)=>{
     try {
-        const allRequests=await CollabRequest.find({receiver:req.user._id}).populate("sender","name username profilePic headline").populate("project","title description").sort({createdAt:-1});
+        const allRequests=await CollabRequest.find({receiver:req.user._id}).populate("sender","username profilePic headline").populate("project","title description").sort({createdAt:-1});
         res.status(200).json(allRequests);
     } catch (error) {
         console.log("Error in getCollabRequests controller",error);

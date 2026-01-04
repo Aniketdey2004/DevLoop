@@ -1,17 +1,31 @@
-import { Route, Routes } from 'react-router';
-import Layout from './components/layout/Layout.jsx';
-import SignUpPage from "./pages/auth/SignUpPage.jsx";
-import LoginPage from "./pages/auth/LoginPage.jsx";
-import HomePage from "./pages/HomePage.jsx";
+import { Navigate, Route, Routes } from 'react-router';
+import SignUpPage from './pages/SignUpPage';
+import LoginPage from './pages/LoginPage';
+import HomePage from "./pages/HomePage";
+import { Toaster } from 'react-hot-toast';
+import { useAuthStore } from './store/useAuthStore';
+import PageLoader from './components/PageLoader';
+import { useEffect } from 'react';
 function App() {
+  const checkAuth=useAuthStore((state)=>state.checkAuth);
+  const isCheckingAuth=useAuthStore((state)=>state.isCheckingAuth);
+  const authUser=useAuthStore((state)=>state.authUser);
+
+  useEffect(()=>{
+    checkAuth();
+  },[checkAuth]);
+
+  if(isCheckingAuth)
+  return <PageLoader/>
   return (
-    <Layout>
+    <>
       <Routes>
-        <Route path='/' element={HomePage}/>
-        <Route path='/signup' element={SignUpPage}/>
-        <Route path='/login' element={LoginPage}/>
+        <Route path='/' element={authUser?<HomePage/>:<Navigate to={"/login"}/>}/>
+        <Route path='/signup' element={!authUser?<SignUpPage/>:<Navigate to={"/"}/>}/>
+        <Route path='/login' element={!authUser?<LoginPage/>:<Navigate to={"/"}/>}/>
       </Routes>
-    </Layout>
+      <Toaster />
+    </>
   )
 }
 

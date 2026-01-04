@@ -10,7 +10,7 @@ export const getSuggestedAccounts=async(req,res)=>{
                 $ne:req.user._id,
                 $nin:following
             }
-        }).select("name username headline profilePic").limit(5);
+        }).select("username headline profilePic").limit(5);
         res.status(200).json(suggestedAccounts);
     }
     catch(error){
@@ -46,7 +46,6 @@ export const updateProfile=async(req,res)=>{
             return res.status(409).json({message:"Username or email already used"});
         }
         const allowedFields=[
-            "name",
             "username",
             "email",
             "location",
@@ -129,7 +128,7 @@ export const unfollowUser=async(req,res)=>{
 
 export const getFollowers=async(req,res)=>{
     try {
-        const followers=await User.find({_id:{$in:req.user.followers}}).select("name username profilePic headline");
+        const followers=await User.find({_id:{$in:req.user.followers}}).select("username profilePic headline");
         res.status(200).json(followers);
     } catch (error) {
         console.log("Error in getFollowers controller",error);
@@ -139,7 +138,7 @@ export const getFollowers=async(req,res)=>{
 
 export const getFollowing=async(req,res)=>{
     try {
-        const following=await User.find({_id:{$in:req.user.following}}).select("name username profilePic headline");
+        const following=await User.find({_id:{$in:req.user.following}}).select("username profilePic headline");
         res.status(200).json(following);
     } catch (error) {
         console.log("Error in getFollowing controller",error);

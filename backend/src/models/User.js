@@ -1,23 +1,18 @@
 import mongoose from "mongoose";
 
 const userSchema=new mongoose.Schema({
-    name:{
-        type:String,
-        required:true
-    },
     username:{
         type:String,
         required:true,
-        unique:true
     },
     email:{
         type:String,
         required:true,
         unique:true
     },
+    googleId:String,
     password:{
         type:String,
-        required:true
     },
     profilePic:{
         type:String,
@@ -29,7 +24,7 @@ const userSchema=new mongoose.Schema({
     },
     location:{
         type:String,
-        default:"Earth"
+        default:""
     },
     about:{
         type:String,
@@ -40,7 +35,10 @@ const userSchema=new mongoose.Schema({
         default:"Hey! I am using DevLoop"
     },
     githubUrl:String,
-    skills:[String],
+    skills:{
+        type:[String],
+        default:[]
+    },
     experience:[
         {
             title:String,

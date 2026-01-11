@@ -10,7 +10,7 @@ const postSchema=new mongoose.Schema({
     image:String,
     type:{
         type:String,
-        enum:["Engage","help","collab"]
+        enum:["Engage","Help","collab"]
     },
     likes:[
         {
@@ -25,6 +25,7 @@ const postSchema=new mongoose.Schema({
                 type:mongoose.Schema.Types.ObjectId,
                 ref:"User"
             },
+            createdAt:{type:Date, default:Date.now}
         }
     ],
     project:{

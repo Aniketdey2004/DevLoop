@@ -1,4 +1,4 @@
-import { generateWebToken } from "../lib/utils.js";
+import { generateWebToken, uploadImageToCloudinary } from "../lib/utils.js";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import { ENV } from "../lib/env.js";
@@ -37,11 +37,9 @@ export const signup= async(req,res)=>{
             email,
             password:hashedPassword
         });
-        let createdUser=await newUser.save();
-        createdUser=createdUser.toObject();
-        delete createdUser.password;
+        await newUser.save();
         generateWebToken(newUser._id,res);
-        res.status(201).json(createdUser);
+        res.status(201).json({message:"User Created Successfully"});
 
         const profileUrl=ENV.CLIENT_URL+"/profile/"+newUser.username;
         try{
@@ -72,7 +70,7 @@ export const login=async(req,res)=>{
             return res.status(401).json({message:"Invalid Credentials"});
         }
         if(user.googleId){
-            return res.status(401).json({message:"Inavalid Credentials"});
+            return res.status(401).json({message:"Invalid Credentials"});
         }
         const isPasswordCorrect=await bcrypt.compare(password,user.password);
         if(!isPasswordCorrect){
@@ -80,13 +78,11 @@ export const login=async(req,res)=>{
         }
 
         generateWebToken(user._id,res);
-        let loggedUser=user.toObject();
-        delete loggedUser.password;
-        res.status(200).json(loggedUser);
+        res.status(200).json({message:"Logged in Successfully"});
     }
     catch(error){
         console.log("error in login controller",error);
-        res.status(500).json({message:"Internal Server Errro"});
+        res.status(500).json({message:"Internal Server Error"});
     }
 };
 
@@ -123,15 +119,17 @@ export const loginThroughGmail=async(req,res)=>{
         const {sub,email,name,picture}=payload;
         let user=await User.findOne({email});
         if(!user){
+            const profilePic = picture ? await uploadImageToCloudinary(picture) : null;
             user=await User.create({
                 googleId:sub,
                 email,
                 username:name,
-                profilePic:picture
+                profilePic
             });
+            return res.status(201).json({message:"User Successfully created"});
         }
         generateWebToken(user._id,res);
-        res.status(200).json(user);
+        res.status(200).json({message:"Logged In Successfully"});
     } catch (error) {
         console.log("error in loginThroughGmail controller",error);
         res.status(500).json({message:"Internal Server Errro"});

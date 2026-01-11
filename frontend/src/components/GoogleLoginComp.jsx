@@ -13,7 +13,7 @@ export default function GoogleLoginComp() {
                 onError={() => {
                     console.log('Login Failed');
                 }}
-            />;
+            />
         </div>
     )
 }

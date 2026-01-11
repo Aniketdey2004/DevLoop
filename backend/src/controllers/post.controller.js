@@ -8,7 +8,6 @@ export const getPostFeed = async (req, res) => {
       author: { $in: [...req.user.following, req.user._id] },
     })
       .populate("author", "profilePic headline username")
-      .populate("likes", "profilePic headline username")
       .populate("comments.user", "profilePic username headline")
       .populate("project", "title description techStack openRoles githubRepo")
       .sort({ createdAt: -1 });
@@ -23,10 +22,10 @@ export const getPostFeed = async (req, res) => {
 export const createPost = async (req, res) => {
   try {
     const { content, image, type } = req.body;
-    if (type!=="engage" && type!=="help" && type!=="collab") {
+    if (type!=="Engage" && type!=="Help" && type!=="collab") {
       return res.status(400).json({ message: "Post should have a valid type" });
     }
-    if (!image && !content) {
+    if (!image && !content.trim()) {
       return res
         .status(400)
         .json({ message: "Post should have some material" });
@@ -48,7 +47,7 @@ export const createPost = async (req, res) => {
       });
     }
     newPost.save();
-    res.status(201).json(newPost);
+    res.status(201).json({message:"Post Successfully created"});
   } catch (error) {
     console.log("Error in createPost controller", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -108,7 +107,6 @@ export const createComment = async (req, res) => {
   try {
     const postId = req.params.id;
     const { content } = req.body;
-
     if (!content?.trim()) {
       return res.status(400).json({ message: "Comment should have content" });
     }
@@ -139,7 +137,7 @@ export const createComment = async (req, res) => {
       await newNotification.save();
     }
 
-    res.status(201).json(post);
+    res.status(201).json({message:"Comment added Successfully"});
   } catch (error) {
     console.log("Error in createComment controller", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -169,11 +167,11 @@ export const likePost = async (req, res) => {
         });
         await newNotification.save();
       }
-      return res.status(200).json(post);
+      return res.status(200).json({message:"Liked Post"});
     }
 
     post = await Post.findByIdAndUpdate(
-      { postId },
+      { _id:postId },
       { $pull: { likes: userId } },
       { new: true }
     )
@@ -184,9 +182,11 @@ export const likePost = async (req, res) => {
     if(!post){
       return res.status(404).json({message:"Post does not exist"});
     }
-    res.status(200).json(post);
+    res.status(200).json({message:"Unliked Post"});
   } catch (error) {
     console.log("Error in likePost controller",error);
     res.status(500).json({message:"Internal Server Error"});
   }
 };
+
+

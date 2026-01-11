@@ -1,21 +1,60 @@
 import React from 'react'
 import { MailIcon, LockIcon, Loader } from 'lucide-react';
 import { Link } from "react-router";
-import GoogleLoginComp from '../components/GoogleLoginComp';
+import { GoogleLogin } from '@react-oauth/google'
 import { useState } from 'react';
-import { useAuthStore } from '../store/useAuthStore';
-export default function LoginPage() {
-  const [formData,setFormData]=useState({
-      email:"",
-      password:""
-  });
-  const login=useAuthStore((state)=>state.login);
-  const isLoggingIn=useAuthStore((state)=>state.isLoggingIn);
-  const isGoogleLogin=useAuthStore((state)=>state.isGoogleLogin);
+import toast from 'react-hot-toast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { axiosInstance } from '../lib/axios';
 
-  const handleSubmit=(e)=>{
+
+export default function LoginPage() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
+
+  const queryClient = useQueryClient();
+
+  const { mutate: loginMutation, isLoading: isLoggingIn } = useMutation({
+    mutationFn: async (data) => {
+      const res = await axiosInstance.post("/auth/login", data);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries("authUser");
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    }
+  })
+
+  const { mutate: googleLoginMutation, isLoading: isGoogleLogin } = useMutation({
+    mutationFn: async (token) => {
+      const res = await axiosInstance.post("/auth/google", { token });
+      return res.data
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries("authUser");
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    }
+  });
+
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    login(formData);
+    if (!formData.email.trim() || !formData.password.trim()) {
+      toast.error("Please fill all fields");
+      return;
+    }
+    loginMutation(formData);
+  }
+  const handleGoogleSubmit = (credentialResponse) => {
+    googleLoginMutation(credentialResponse.credential);
   }
   return (
     <div className='min-h-screen flex justify-center items-center bg-lime-50 px-4'>
@@ -31,16 +70,16 @@ export default function LoginPage() {
             <label htmlFor='email' className='auth-input-label'>Email</label>
             <div className='relative mb-3'>
               <MailIcon className="auth-input-icon" />
-              <input type='email' className='input' id='email' placeholder='johndoe@gmail.com' value={formData.email} onChange={(e)=>setFormData({...formData,email:e.target.value})}/>
+              <input type='email' className='input' id='email' placeholder='johndoe@gmail.com' value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
             </div>
             {/* password */}
             <label htmlFor='password' className='auth-input-label'>Password</label>
             <div className='relative mb-3'>
               <LockIcon className="auth-input-icon" />
-              <input type='password' className='input' id='password' placeholder='Enter your password' value={formData.password} onChange={(e)=>setFormData({...formData,password:e.target.value})}/>
+              <input type='password' className='input' id='password' placeholder='Enter your password' value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
             </div>
-            <button className='auth-btn' type='submit' disabled={isLoggingIn ||isGoogleLogin}>
-              {isLoggingIn?<Loader className='size-8 animate-spin mx-auto'/>:"Sign In"}
+            <button className='auth-btn' type='submit' disabled={isLoggingIn || isGoogleLogin}>
+              {isLoggingIn ? <Loader className='size-8 animate-spin mx-auto' /> : "Sign In"}
             </button>
           </form>
           <div className='mt-5 text-gray-600'>
@@ -52,7 +91,14 @@ export default function LoginPage() {
             <div className='text-slate-600 text-lg'>or</div>
             <div className='border-b w-[45%] border-slate-600'></div>
           </div>
-          <GoogleLoginComp />
+          <div className='w-3/5 rounded-lg mt-5'>
+            <GoogleLogin
+              onSuccess={credentialResponse => handleGoogleSubmit(credentialResponse)}
+              onError={() => {
+                console.log('Login Failed');
+              }}
+            />
+          </div>
         </div>
         {/* right Section */}
         <div className='hidden md:block md:w-1/2  relative bg-lime-600 rounded-r-2xl p-4'>

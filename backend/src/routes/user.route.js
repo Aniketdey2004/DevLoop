@@ -4,11 +4,13 @@ import { getSuggestedAccounts, getPublicProfile, updateProfile, followUser, unfo
 const router=express.Router();
 
 router.get("/suggestions",protectRoute,getSuggestedAccounts);
-router.get("/:username",protectRoute,getPublicProfile);//todo:needs to change
+router.get("/followers",protectRoute, getFollowers);
 router.patch("/updateProfile", protectRoute, updateProfile);
+router.get("/following",protectRoute,getFollowing);
+router.get("/:email",protectRoute,getPublicProfile);//todo:needs to change
 router.post("/:id/follow",protectRoute,followUser);
 router.post("/:id/unfollow",protectRoute,unfollowUser);
-router.get("/followers",protectRoute,getFollowers);
-router.get("/following",protectRoute,getFollowing);
+
+
 
 export default router;

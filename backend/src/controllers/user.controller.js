@@ -10,7 +10,7 @@ export const getSuggestedAccounts=async(req,res)=>{
                 $ne:req.user._id,
                 $nin:following
             }
-        }).select("username headline profilePic").limit(5);
+        }).select("username headline profilePic email").limit(5);
         res.status(200).json(suggestedAccounts);
     }
     catch(error){
@@ -21,8 +21,8 @@ export const getSuggestedAccounts=async(req,res)=>{
 
 export const getPublicProfile=async(req,res)=>{
     try{
-        const {username}=req.params;
-        const user=await User.findOne({username}).select("-password").populate("projects","title description gihtubRepo liveUrl");
+        const {email}=req.params;
+        const user=await User.findOne({email}).select("-password").populate("projects","title description gihtubRepo liveUrl");
         res.status(200).json(user);
     }   
     catch(error){
@@ -85,7 +85,7 @@ export const updateProfile=async(req,res)=>{
 
 
 export const followUser=async(req,res)=>{
-    const userId=req.params._id;
+    const userId=req.params.id;
     try {
         if(req.user.following.includes(userId))
         {
@@ -96,14 +96,14 @@ export const followUser=async(req,res)=>{
             return res.status(404).json({message:"User not found"});
         }
         await User.findByIdAndUpdate(req.user._id,{$addToSet:{following:userId}});
-        await User.findByIdAndUpdate(userId,{$addToSet:{followers:req.user._id}});
+        const followedUser=await User.findByIdAndUpdate(userId,{$addToSet:{followers:req.user._id}},{new:true}).select("username");
         const newNotification=new Notification({
             recipient:userId,
             relatedUser:req.user._id,
             type:"follow"
         });
         await newNotification.save();
-        res.status(200).json({message:`Followed ${followUser.username}`});
+        res.status(200).json({message:`Followed ${followedUser.username}`});
 
     } catch (error) {
         console.log("Error in followUser controller",error);

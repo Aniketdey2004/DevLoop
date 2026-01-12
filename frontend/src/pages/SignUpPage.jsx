@@ -54,7 +54,7 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className='min-h-screen flex justify-center items-center bg-lime-50 px-4'>
+    <div className='min-h-screen flex justify-center items-center bg-base-300 px-4'>
       <div className='max-w-6xl w-full bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl min-h-[90vh] md:min-h-[70vh] lg:min-h-[90vh] flex'>
         {/* Left section */}
         <div className='w-full md:w-1/2 flex flex-col justify-center items-center p-4'>
@@ -87,7 +87,7 @@ export default function SignUpPage() {
           </form>
           <div className='mt-5 text-gray-600'>
             Already have an account?
-            <Link to="/login" className='text-lime-400'>Login</Link>
+            <Link to="/login" className='text-lime-400'> Login</Link>
           </div>
           <div className='flex items-center gap-2 w-full px-4 mt-2'>
             <div className='border-b w-[45%] border-slate-600'></div>

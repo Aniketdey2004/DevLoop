@@ -29,3 +29,12 @@
   @apply px-3 py-1 text-xs font-medium rounded-full 
   bg-lime-500/20 text-lime-700;
 }
+
+.hide-scrollbar {
+  -ms-overflow-style: none;     /* IE & Edge */
+  scrollbar-width: none;        /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari */
+}

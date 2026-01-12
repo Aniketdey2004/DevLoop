@@ -57,7 +57,7 @@ export default function LoginPage() {
     googleLoginMutation(credentialResponse.credential);
   }
   return (
-    <div className='min-h-screen flex justify-center items-center bg-lime-50 px-4'>
+    <div className='min-h-screen flex justify-center items-center bg-base-300 px-4'>
       <div className='max-w-6xl w-full bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl min-h-[90vh] md:min-h-[70vh] lg:min-h-[90vh] flex'>
         {/* Left section */}
         <div className='w-full md:w-1/2 flex flex-col justify-center items-center p-4'>

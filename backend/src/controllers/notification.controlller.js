@@ -1,10 +1,12 @@
 import Notification from "../models/Notification.js";
-//may require changes
+
 export const getAllNotifications = async (req, res) => {
   try {
     const notifications = await Notification.find({ recipient: req.user._id })
-      .populate("relatedUser", "username headline profilePic")
-      .populate("relatedPost", "content image");
+      .populate("relatedUser", "username profilePic")
+      .populate("relatedPost", "content image")
+      .populate("projectId","title description")
+      .sort({createdAt:-1});
     res.status(200).json(notifications);
   } catch (error) {
     console.log("Error in getAllNotifications Controller",error);
@@ -13,10 +15,10 @@ export const getAllNotifications = async (req, res) => {
 };
 
 export const markNotificationAsRead=async(req,res)=>{
-    const notificationId=req.params.id;
+    const {notificationIds}=req.body;
     try {
-       const notification=await Notification.findOneAndUpdate({_id:notificationId,recipient:req.user._id},{read:true});
-       if(!notification){
+       const notification=await Notification.updateMany({_id:{$in:notificationIds},recipient:req.user._id},{read:true});
+       if(notification.modifiedCount==0){
         return res.status(404).json({message:"Notification not found"});
        } 
        res.status(200).json({message:"Notification marked read"});

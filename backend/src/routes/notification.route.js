@@ -5,7 +5,7 @@ import { getAllNotifications, markNotificationAsRead, deleteNotification } from 
 const router=express.Router();
 
 router.get("/",protectRoute,getAllNotifications);
-router.patch("/:id",protectRoute,markNotificationAsRead);
+router.patch("/read",protectRoute,markNotificationAsRead);
 router.delete("/:id",protectRoute,deleteNotification);
 
 export default router;

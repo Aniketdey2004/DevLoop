@@ -146,7 +146,7 @@ export default function Post({ post }) {
         )}
       </div>
       <p className='mb-4'>{post.content}</p>
-      {post.image && <img src={post.image} alt='post content' className='w-full mb-4' />}
+      {post.image && <img src={post.image} alt='post content' className='w-full mb-4 max-h-[40vh] object-cover' />}
       <div className='flex justify-around mb-4'>
         <button className="flex items-center gap-2 hover:cursor-pointer" onClick={handleLikePost} disabled={isLikingPost}>
           <ThumbsUp className={isLiked ? "text-blue-500 fill-blue-300" : ""} />
@@ -156,6 +156,7 @@ export default function Post({ post }) {
           <MessageCircle />
           <span>Comment</span>
         </button>
+        {/* todo:add a button for collab request */}
       </div>
       {showComments &&
         <div className=''>

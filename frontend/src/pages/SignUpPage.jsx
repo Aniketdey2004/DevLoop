@@ -67,19 +67,19 @@ export default function SignUpPage() {
             <label htmlFor='username' className='auth-input-label'>Username</label>
             <div className='relative mb-3'>
               <CircleUserRound className="auth-input-icon" />
-              <input type='text' className='input' id='username' placeholder='Furious004' value={formData.username} onChange={(e) => setFormData({ ...formData, username: e.target.value })} />
+              <input type='text' className='auth-input' id='username' placeholder='Furious004' value={formData.username} onChange={(e) => setFormData({ ...formData, username: e.target.value })} />
             </div>
             {/* email */}
             <label htmlFor='email' className='auth-input-label'>Email</label>
             <div className='relative mb-3'>
               <MailIcon className="auth-input-icon" />
-              <input type='email' className='input' id='email' placeholder='johndoe@gmail.com' value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+              <input type='email' className='auth-input' id='email' placeholder='johndoe@gmail.com' value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
             </div>
             {/* password */}
             <label htmlFor='password' className='auth-input-label'>Password</label>
             <div className='relative mb-3'>
               <LockIcon className="auth-input-icon" />
-              <input type='password' className='input' id='password' placeholder='Enter your password' value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
+              <input type='password' className='auth-input' id='password' placeholder='Enter your password' value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
             </div>
             <button className='auth-btn' type='submit' disabled={isSigningUp || isGoogleLogin}>
               {isSigningUp ? <Loader className='size-8 animate-spin mx-auto' /> : "Create Account"}

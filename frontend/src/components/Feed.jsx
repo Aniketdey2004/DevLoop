@@ -6,13 +6,11 @@ import { User } from 'lucide-react';
 import Post from "./Post";
 import { useQuery } from '@tanstack/react-query';
 
-
-
 export default function Feed() {
   const { data: recommendedUsers } = useQuery({
     queryKey: ["recommendedUsers"],
     queryFn: async () => {
-      const res = await axiosInstance.get("/users/suggestions");
+      const res = await axiosInstance.get("/users/suggestions?limitUsers=5");
       return res.data;
     }
   });
@@ -50,12 +48,12 @@ export default function Feed() {
           )}
         </div>
       </div>
-      {recommendedUsers?.length > 0 && (
+      {recommendedUsers && (
         <div className='hidden lg:block lg:col-span-1'>
           <div className='bg-slate-50 p-4 rounded-lg shadow'>
             <h2 className='font-semibold text-lg mb-3'>Developers you can follow</h2>
             {
-              recommendedUsers.map((user) => (<RecommendedUser user={user} key={user._id} />))
+              recommendedUsers.length>0?(recommendedUsers.map((user) => (<RecommendedUser user={user} key={user._id} />))):<p>No users to follow</p>
             }
           </div>
         </div>

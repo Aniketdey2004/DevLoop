@@ -1,7 +1,7 @@
 @config "../tailwind.config.js";
 @import "tailwindcss";
 
-.input {
+.auth-input {
   @apply w-full bg-lime-900/10 border border-lime-300 rounded-lg 
   py-2 pl-10 pr-4 text-gray-800 placeholder-gray-500 
   focus:ring-2 focus:ring-lime-400 focus:border-transparent;

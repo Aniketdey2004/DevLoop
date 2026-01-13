@@ -70,13 +70,13 @@ export default function LoginPage() {
             <label htmlFor='email' className='auth-input-label'>Email</label>
             <div className='relative mb-3'>
               <MailIcon className="auth-input-icon" />
-              <input type='email' className='input' id='email' placeholder='johndoe@gmail.com' value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+              <input type='email' className='auth-input' id='email' placeholder='johndoe@gmail.com' value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
             </div>
             {/* password */}
             <label htmlFor='password' className='auth-input-label'>Password</label>
             <div className='relative mb-3'>
               <LockIcon className="auth-input-icon" />
-              <input type='password' className='input' id='password' placeholder='Enter your password' value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
+              <input type='password' className='auth-input' id='password' placeholder='Enter your password' value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
             </div>
             <button className='auth-btn' type='submit' disabled={isLoggingIn || isGoogleLogin}>
               {isLoggingIn ? <Loader className='size-8 animate-spin mx-auto' /> : "Sign In"}

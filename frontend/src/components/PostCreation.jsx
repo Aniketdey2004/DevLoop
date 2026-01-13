@@ -67,7 +67,7 @@ export default function PostCreation() {
       {image && //if selected image exists
         <div className='mt-3 relative'>
           <button className='absolute top-4 right-4 bg-slate-700 text-white rounded-full p-1 cursor-pointer' onClick={clearImage}><XIcon className='h-8 w-8' /></button>
-          <img src={image} alt="selected" className='w-full h-auto rounded-lg' />
+          <img src={image} alt="selected" className='w-full h-auto rounded-lg max-h-[30vh] object-cover' />
         </div>
       }
       <div className='flex justify-between mt-4'>

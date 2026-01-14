@@ -97,7 +97,7 @@ export default function Notification() {
       return null;
     //include the post  link
     return (
-      <Link to={'/'} className='flex items-center p-2 bg-gray-50 w-44 space-x-2 hover:bg-gray-100 transition-colors'>
+      <Link to={`/posts/${relatedPost._id}`} className='flex items-center p-2 bg-gray-50 w-44 space-x-2 hover:bg-gray-100 transition-colors'>
         {relatedPost.image && <img src={relatedPost.image} alt='post image' className='size-10 object-cover rounded-md' />}
         {relatedPost.content && (
           <div className='flex-1 overflow-hidden'>

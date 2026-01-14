@@ -8,6 +8,7 @@ import Network from './components/Network';
 import Notification from './components/Notification';
 import Project from './components/Project';
 import Settings from './components/Settings';
+import PostPage from './pages/PostPage';
 import { Toaster } from 'react-hot-toast';
 import PageLoader from './components/PageLoader';
 import { useQuery } from '@tanstack/react-query';
@@ -49,6 +50,7 @@ function App() {
           <Route path='notifications' element={<Notification/>}/>
           <Route path='project' element={<Project/>}/>
           <Route path='settings' element={<Settings/>}/>
+          <Route path='posts/:postId' element={<PostPage/>}/>
         </Route>
         <Route path='/signup' element={!authUser?<SignUpPage/>:<Navigate to={"/"}/>}/>
         <Route path='/login' element={!authUser?<LoginPage/>:<Navigate to={"/"}/>}/>

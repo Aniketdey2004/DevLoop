@@ -10,7 +10,6 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
   const isOwner = authUser._id === post.author._id;
   const isLiked = post.likes.includes(authUser._id);
 
-
   const isLikingPost = likeMutation.isPending && likeMutation.variables === post._id;
   const isDeletingPost = deleteMutation.isPending && deleteMutation.variables === post._id;
 
@@ -73,7 +72,7 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
             {post.comments.map((comment) => (
               <div className='flex gap-2' key={comment._id}>
                 {/* todo:link the image to the profile page of user */}
-                <img src={comment.user.profilePic || './avatar.png'} alt={comment.user.username} className='size-12 rounded-full shrink-0' />
+                <img src={comment.user.profilePic || '/avatar.png'} alt={comment.user.username} className='size-12 rounded-full shrink-0' />
                 <div>
                   <div className='flex gap-2 items-center'>
                     <h3 className='font-medium'>{comment.user.username}</h3>

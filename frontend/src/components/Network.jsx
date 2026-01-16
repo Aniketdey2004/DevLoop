@@ -86,7 +86,8 @@ export default function Network() {
     setSearched(false);
     queryClient.removeQueries({ queryKey: ["searchedUsers"] });
   }
-  console.log(following);
+
+
   return (
     <div className="h-full w-full max-w-8xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6 p-4">
       <div className="hidden lg:block lg:col-span-1">
@@ -110,8 +111,7 @@ export default function Network() {
                       key={follower._id}
                       className="border border-slate-400 p-4 rounded-lg hover:bg-slate-200 transition-colors"
                     >
-                      {/* todo:link to profile */}
-                      <Link className="flex items-center gap-2 md:gap-4">
+                      <Link className="flex items-center gap-2 md:gap-4" to={`/profile/${follower._id}`}>
                         <img
                           src={follower.profilePic || './avatar.png'}
                           className="size-12 rounded-full"
@@ -139,8 +139,7 @@ export default function Network() {
                       key={followedUser._id}
                       className="border border-slate-400 p-4 rounded-lg hover:bg-slate-200 transition-colors"
                     >
-                      {/* todo:link to profile */}
-                      <Link className="flex items-center gap-2 md:gap-4">
+                      <Link className="flex items-center gap-2 md:gap-4" to={`/profile/${followedUser._id}`}>
                         <img
                           src={followedUser.profilePic || './avatar.png'}
                           className="size-12 rounded-full shrink-0"
@@ -180,8 +179,8 @@ export default function Network() {
                             key={user._id}
                             className="border border-slate-400 p-4 rounded-lg hover:bg-slate-200 transition-colors"
                           >
-                            {/* todo:link to profile */}
-                            <Link className="flex items-center gap-2 md:gap-4">
+
+                            <Link className="flex items-center gap-2 md:gap-4"  to={`/profile/${user._id}`}>
                               <img
                                 src={user.profilePic || './avatar.png'}
                                 className="size-12 rounded-full shrink-0"
@@ -206,8 +205,7 @@ export default function Network() {
                             key={user._id}
                             className="border border-slate-400 p-4 rounded-lg hover:bg-slate-200 transition-colors"
                           >
-                            {/* todo:link to profile */}
-                            <Link className="flex items-center gap-2 md:gap-4">
+                            <Link className="flex items-center gap-2 md:gap-4"  to={`/profile/${user._id}`}>
                               <img
                                 src={user.profilePic || './avatar.png'}
                                 className="size-12 rounded-full shrink-0"

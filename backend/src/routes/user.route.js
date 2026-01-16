@@ -5,10 +5,10 @@ const router=express.Router();
 
 router.get("/suggestions",protectRoute,getSuggestedAccounts);
 router.get("/followers",protectRoute, getFollowers);
-router.patch("/updateProfile", protectRoute, updateProfile);
+router.patch("/update", protectRoute, updateProfile);
 router.get("/following",protectRoute,getFollowing);
 
-router.get("/:email",protectRoute,getPublicProfile);//todo:needs to change
+router.get("/:id",protectRoute,getPublicProfile);//todo:needs to change
 router.get("/search/:username",protectRoute,getSearchedUsers);
 router.post("/:id/follow",protectRoute,followUser);
 router.post("/:id/unfollow",protectRoute,unfollowUser);

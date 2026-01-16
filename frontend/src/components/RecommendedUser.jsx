@@ -23,11 +23,11 @@ export default function RecommendedUser({user}) {
 
   return (
     <div className='mb-4 flex items-center justify-between'>
-        <Link to={`/profile/${user.email}`} className='flex items-center'>
+        <Link to={`/profile/${user._id}`} className='flex items-center'>
             <img src={user.profilePic || "./avatar.png"} alt={user.username} className='h-12 w-12 rounded-full mr-2'/>
             <h3 className='font-semibold text-lg'>{user.username}</h3>
         </Link>
-        <button onClick={followUser} className='px-3 py-1 text-sm font-medium text-green-600 hover:text-white hover:bg-green-700 border rounded-lg border-green-500 transition-colors hover:cursor-pointer'>follow</button>
+        <button onClick={followUser} className='px-4 py-2 text-sm font-medium text-white bg-green-500 hover:bg-green-700  rounded-lg  transition-colors hover:cursor-pointer'>follow</button>
     </div>
   )
 }

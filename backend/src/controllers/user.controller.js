@@ -22,8 +22,8 @@ export const getSuggestedAccounts=async(req,res)=>{
 
 export const getPublicProfile=async(req,res)=>{
     try{
-        const {email}=req.params;
-        const user=await User.findOne({email}).select("-password").populate("projects","title description gihtubRepo liveUrl");
+        const {id}=req.params;
+        const user=await User.findById(id).select("-password").populate("projects","title description gihtubRepo liveUrl");
         res.status(200).json(user);
     }   
     catch(error){
@@ -32,19 +32,16 @@ export const getPublicProfile=async(req,res)=>{
     }
 };
 
-//review it later might require changes
+
 export const updateProfile=async(req,res)=>{
     try{
-        const {username,email}=req.body;
+        const {email}=req.body;
         const user=await User.exists({
            _id:{$ne:req.user._id},
-            $or:[
-                {username},
-                {email},
-            ]
+            email
         });
         if(user){
-            return res.status(409).json({message:"Username or email already used"});
+            return res.status(409).json({message:"email already used"});
         }
         const allowedFields=[
             "username",
@@ -55,7 +52,7 @@ export const updateProfile=async(req,res)=>{
             "githubUrl",
             "skills",
             "experience",
-            "education",
+            "education", 
         ];
         const updatedBody={};
         for(const field of allowedFields){
@@ -74,9 +71,8 @@ export const updateProfile=async(req,res)=>{
             updatedBody["bannerImg"]=bannerImgResponse.secure_url;
         }
 
-        const updatedUser=await User.findByIdAndUpdate(req.user._id,{$set:updatedBody},{new:true}).select("-password");
-
-        res.status(200).json(updatedUser);
+        await User.findByIdAndUpdate(req.user._id,{$set:updatedBody});
+        res.status(200).json({message:"User successfully Updated"});
     }
     catch(error){
         console.log("error in updateProfile controller",error);

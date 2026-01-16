@@ -88,7 +88,6 @@ export const getPost = async (req, res) => {
     const postId = req.params.id;
     const post = await Post.findById(postId)
       .populate("author", "username profilePic headline")
-      .populate("likes", "username profilePic headline")
       .populate("comments.user", "username headline profilePic")
       .populate("project", "title description techStack openRoles githubRepo");
 

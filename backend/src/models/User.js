@@ -24,7 +24,7 @@ const userSchema=new mongoose.Schema({
     },
     location:{
         type:String,
-        default:""
+        default:"Earth"
     },
     about:{
         type:String,
@@ -45,14 +45,13 @@ const userSchema=new mongoose.Schema({
             company:String,
             startDate:Date,
             endDate:Date,
-            description:String
+            description:String,
         }
     ],
     education:[
         {
             school:String,
             Degree:String,
-            fieldOfStudy:String,
             startDate:Date,
             endDate:Date,
             Grade:String

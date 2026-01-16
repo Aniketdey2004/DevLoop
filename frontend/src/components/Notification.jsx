@@ -95,7 +95,6 @@ export default function Notification() {
   const renderRelatedPost = (relatedPost) => {
     if (!relatedPost)
       return null;
-    //include the post  link
     return (
       <Link to={`/posts/${relatedPost._id}`} className='flex items-center p-2 bg-gray-50 w-44 space-x-2 hover:bg-gray-100 transition-colors'>
         {relatedPost.image && <img src={relatedPost.image} alt='post image' className='size-10 object-cover rounded-md' />}
@@ -139,7 +138,7 @@ export default function Notification() {
                     <li key={notify._id} className={`bg-white border rounded-lg p-4 hover:shadow-md  hover:cursor-pointer transition-all ${!notify.read ? "border-green-500" : "border-gray-400"}`}>
                       <div className='flex items-start gap-3'>
                         {/* todo:link it to user page when clicking on image */}
-                        <img src={notify.relatedUser.profilePic || './avatar.png'} alt='related user image' className='size-10 rounded-full shrink-0' />
+                        <Link to={`/profile/${notify.relatedUser._id}`}><img src={notify.relatedUser.profilePic || '/avatar.png'} alt='related user image' className='size-10 rounded-full shrink-0' /></Link>
                         <div className='flex-1'>
                           <div className="mb-2 flex items-center gap-2 flex-wrap">
                               {renderNotificationIcon(notify.type)}

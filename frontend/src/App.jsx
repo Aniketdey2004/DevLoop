@@ -7,7 +7,6 @@ import Profile from './components/Profile';
 import Network from './components/Network';
 import Notification from './components/Notification';
 import Project from './components/Project';
-import Settings from './components/Settings';
 import PostPage from './pages/PostPage';
 import { Toaster } from 'react-hot-toast';
 import PageLoader from './components/PageLoader';
@@ -34,8 +33,10 @@ function App() {
     },
     onError:(error)=>{
       toast.error(error.response.data.message);
-    }
-  })
+    },
+    staleTime: Infinity,
+    cacheTime: Infinity,
+  });
 
 
   if(isCheckingAuth)
@@ -45,11 +46,10 @@ function App() {
       <Routes>
         <Route path='/' element={authUser?<HomePage/>:<Navigate to={"/login"}/>}>
           <Route index element={<Feed/>}/>
-          <Route path='profile' element={<Profile/>}/>
+          <Route path='profile/:userId' element={<Profile/>}/>
           <Route path="network" element={<Network/>}/>
           <Route path='notifications' element={<Notification/>}/>
           <Route path='project' element={<Project/>}/>
-          <Route path='settings' element={<Settings/>}/>
           <Route path='posts/:postId' element={<PostPage/>}/>
         </Route>
         <Route path='/signup' element={!authUser?<SignUpPage/>:<Navigate to={"/"}/>}/>

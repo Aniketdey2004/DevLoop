@@ -32,9 +32,10 @@ export default function Feed() {
       const res = await axiosInstance.delete(`/posts/${postId}`);
       return res.data;
     },
-    onSuccess: (data) => {
+    onSuccess: (data,postId) => {
       toast.success(data.message);
       queryClient.invalidateQueries("posts");
+      queryClient.invalidateQueries({queryKey:["posts",postId]});
     },
     onError: (error) => {
       toast.error(error.response.data.message);
@@ -102,8 +103,9 @@ export default function Feed() {
 
       return { previousPosts }
     },
-    onSuccess: (data) => {
+    onSuccess: (data,postId) => {
       toast.success(data.message);
+      queryClient.invalidateQueries({queryKey:["posts",postId]});
     },
     onError: (error, postId, context) => {
       toast.error(error.response.data.message);

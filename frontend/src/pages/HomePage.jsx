@@ -1,18 +1,27 @@
 import React from 'react'
 import { Outlet } from 'react-router';
-import { House, Settings2, User, Bell, Waypoints, PanelsTopLeft } from 'lucide-react';
+import { House, LogOut, User, Bell, Waypoints, PanelsTopLeft } from 'lucide-react';
 import { Link } from 'react-router';
 import { axiosInstance } from "../lib/axios.js";
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 export default function HomePage() {
-
+  const queryClient=useQueryClient();
+  const authUser=queryClient.getQueryData(["authUser"]);
   const { data: notifications } = useQuery({
     queryKey: ["notifications"],
     queryFn: async () => {
       const res = await axiosInstance.get("/notifications");
       return res.data;
     },
+  });
 
+  const {mutate:logout}=useMutation({
+    mutationFn:async()=>{
+      await axiosInstance.post('/auth/logout');
+    },
+    onSuccess:()=>{
+      queryClient.invalidateQueries({queryKey:["authUser"]});
+    }
   });
 
   const unreadNotificationsCount = notifications?.filter((notify) => !notify.read).length;
@@ -28,7 +37,7 @@ export default function HomePage() {
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor" className="my-1.5 inline-block size-6 text-emerald-500"><path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path><path d="M9 4v16"></path><path d="M14 10l2 2l-2 2"></path></svg>
           </label>
           <div className="px-4">
-            <img src='./logo.svg' />
+            <img src='/logo.svg' />
           </div>
         </nav>
         {/* Page content here */}
@@ -50,7 +59,7 @@ export default function HomePage() {
                 </button>
               </li>
             </Link>
-            <Link to="/profile">
+            <Link to={`/profile/${authUser._id}`}>
               <li className='mt-8'>
                 <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Profile">
                   <User />
@@ -84,14 +93,12 @@ export default function HomePage() {
                 </button>
               </li>
             </Link>
-            <Link to={"/settings"}>
-              <li className='mt-8'>
-                <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">
-                  <Settings2 />
-                  <span className="is-drawer-close:hidden text-xl">Settings</span>
+            <li className='mt-8'>
+                <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings" onClick={logout}>
+                  <LogOut />
+                  <span className="is-drawer-close:hidden text-xl">Logout</span>
                 </button>
-              </li>
-            </Link>
+            </li>
           </ul>
         </div>
       </div>

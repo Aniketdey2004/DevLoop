@@ -1,12 +1,12 @@
 import { Navigate, Route, Routes } from 'react-router';
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
-import HomePage from "./pages/HomePage";
-import Feed from './components/Feed';
-import Profile from './components/Profile';
-import Network from './components/Network';
-import Notification from './components/Notification';
-import Project from './components/Project';
+import Layout from "./pages/Layout";
+import Feed from './pages/Feed';
+import Profile from './pages/Profile';
+import Network from './pages/Network';
+import Notification from './pages/Notification';
+import Project from './pages/Project';
 import PostPage from './pages/PostPage';
 import { Toaster } from 'react-hot-toast';
 import PageLoader from './components/PageLoader';
@@ -44,7 +44,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element={authUser?<HomePage/>:<Navigate to={"/login"}/>}>
+        <Route path='/' element={authUser?<Layout/>:<Navigate to={"/login"}/>}>
           <Route index element={<Feed/>}/>
           <Route path='profile/:userId' element={<Profile/>}/>
           <Route path="network" element={<Network/>}/>

@@ -4,11 +4,11 @@ import { useParams } from 'react-router'
 import { axiosInstance } from '../lib/axios';
 import toast from 'react-hot-toast';
 import { Loader } from 'lucide-react';
-import ProfileHeader from './ProfileHeader';
-import AboutSection from './AboutSection';
-import EducationSection from "./EducationSection";
-import ExperienceSection from './ExperienceSection';
-import SkillsSection from "./SkillSection.jsx";
+import ProfileHeader from '../components/ProfileHeader';
+import AboutSection from '../components/AboutSection';
+import EducationSection from "../components/EducationSection";
+import ExperienceSection from '../components/ExperienceSection';
+import SkillsSection from "../components/SkillSection.jsx";
 
 export default function Profile() {
   const { userId } = useParams();

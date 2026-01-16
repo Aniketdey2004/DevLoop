@@ -1,9 +1,9 @@
-import Sidebar from './Sidebar';
-import PostCreation from './PostCreation';
-import RecommendedUser from './RecommendedUser';
+import Sidebar from '../components/Sidebar';
+import PostCreation from '../components/PostCreation';
+import RecommendedUser from '../components/RecommendedUser';
 import { axiosInstance } from '../lib/axios';
 import { User } from 'lucide-react';
-import Post from "./Post";
+import Post from "../components/Post";
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 

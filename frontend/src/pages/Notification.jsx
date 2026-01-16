@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { UserCheck, UserRoundX, UserPlus, ThumbsUp, MessageCircle, ExternalLink, Trash2, Loader } from 'lucide-react';
 import { Link } from "react-router";
-import Sidebar from './Sidebar.jsx';
+import Sidebar from '../components/Sidebar.jsx';
 import { formatDistanceToNow } from "date-fns";
 
 export default function Notification() {

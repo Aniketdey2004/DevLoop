@@ -4,7 +4,7 @@ import { House, LogOut, User, Bell, Waypoints, PanelsTopLeft } from 'lucide-reac
 import { Link } from 'react-router';
 import { axiosInstance } from "../lib/axios.js";
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-export default function HomePage() {
+export default function Layout() {
   const queryClient=useQueryClient();
   const authUser=queryClient.getQueryData(["authUser"]);
   const { data: notifications } = useQuery({

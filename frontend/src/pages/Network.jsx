@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import React from 'react'
 import { axiosInstance } from '../lib/axios'
 import toast from 'react-hot-toast'
-import Sidebar from './Sidebar'
+import Sidebar from '../components/Sidebar'
 import { Link } from 'react-router'
 import { UserRoundSearch, Search, Loader, XIcon } from 'lucide-react';
 import { useState } from "react";

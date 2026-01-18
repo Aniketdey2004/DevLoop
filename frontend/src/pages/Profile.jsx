@@ -9,6 +9,7 @@ import AboutSection from '../components/AboutSection';
 import EducationSection from "../components/EducationSection";
 import ExperienceSection from '../components/ExperienceSection';
 import SkillsSection from "../components/SkillSection.jsx";
+import GithubComp from '../components/GithubComp.jsx';
 
 export default function Profile() {
   const { userId } = useParams();
@@ -55,6 +56,7 @@ export default function Profile() {
   return (
       <div className='mx-auto max-w-4xl  bg-slate-50  lg:rounded-t-md lg:my-2 h-[91vh] overflow-y-auto hide-scrollbar'>
         <ProfileHeader userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} isFollowing={isFollowing} />
+        <GithubComp userData={userData} isOwnProfile={isOwnProfile} />
         <AboutSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
         <ExperienceSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
         <EducationSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />

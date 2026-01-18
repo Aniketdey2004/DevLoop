@@ -34,7 +34,13 @@ const userSchema=new mongoose.Schema({
         type:String,
         default:"Hey! I am using DevLoop"
     },
-    githubUrl:String,
+    github: {
+        id: Number,
+        username: String,
+        profileUrl: String,
+        accessToken: String, // ENCRYPTED
+        connectedAt: Date
+    },
     skills:{
         type:[String],
         default:[]

@@ -10,6 +10,10 @@ const projectSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    ownerId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    },
     techStack:[String],
     githubRepo:{
         type:String,
@@ -19,15 +23,18 @@ const projectSchema=new mongoose.Schema({
     collaborators:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:"User"
+            ref:"User",
+            default:[]
         }
     ],
     status:{
         type:String,
-        enum:["active","completed"]
+        enum:["active","completed"],
+        required:true
     },
     requireCollaborators:{
-        type:Boolean
+        type:Boolean,
+        required:true
     }
 });
 

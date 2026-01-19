@@ -1,10 +1,10 @@
 import express from "express";
 import {protectRoute} from "../middlewares/auth.middleware.js";
-import { createProject , deleteProject, getProject, editProject} from "../controllers/project.controller.js";
+import { createProject, getProject, editProject, getMyProjects} from "../controllers/project.controller.js";
 const router=express.Router();
 
+router.get("/",protectRoute,getMyProjects);
 router.post("/create",protectRoute, createProject);
-router.delete("/:id",protectRoute, deleteProject);
 router.patch("/:id",protectRoute, editProject);
 router.get("/:id",protectRoute, getProject);
 

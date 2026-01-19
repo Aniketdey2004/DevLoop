@@ -19,6 +19,7 @@ export default function PostPage() {
             return res.data;
         }
     });
+    
     const navigate = useNavigate();
     const deletePostMutation = useMutation({
         mutationFn: async (pId) => {

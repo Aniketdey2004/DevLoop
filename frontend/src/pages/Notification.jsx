@@ -128,7 +128,7 @@ export default function Notification() {
         <Sidebar />
       </div>
       <div className='col-span-1 lg:col-span-3 overflow-hidden flex flex-col'>
-        <div className='bg-slate-50 rounded-lg shadow p-6 overflow-y-auto'>
+        <div className='bg-slate-50 rounded-lg shadow p-6 overflow-y-auto hide-scrollbar'>
           <h1 className='text-2xl font-bold mb-6'>Notifications</h1>
           {isLoading ? <p>Loading Notifications...</p> :
             notifications && notifications.length > 0 ? (

@@ -27,7 +27,7 @@ export default function Layout() {
   const unreadNotificationsCount = notifications?.filter((notify) => !notify.read).length;
 
   return (
-    <div className="drawer lg:drawer-open">
+    <div className="drawer lg:drawer-open h-screen">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col h-screen overflow-hidden">
         {/* Navbar */}
@@ -41,7 +41,7 @@ export default function Layout() {
           </div>
         </nav>
         {/* Page content here */}
-        <div className=" flex-1 bg-base-300 overflow-hidden">
+        <div className="flex-1 bg-base-300 overflow-hidden">
           <Outlet />
         </div>
       </div>

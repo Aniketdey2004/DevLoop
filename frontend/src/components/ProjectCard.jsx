@@ -1,10 +1,12 @@
 import {Link} from "react-router"
 import ProjectEdit from "./ProjectEdit";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function ProjectCard({ project }) {
   const [isEditing,setIsEditing]=useState(false);
-
+  const queryClient=useQueryClient();
+  const authUser=queryClient.getQueryData(["authUser"]);
   return (
     <div className='card bg-white border shadow-sm'>
       <div className='card-body'>
@@ -21,9 +23,9 @@ export default function ProjectCard({ project }) {
             <Link to={`/project/${project._id}`} className='btn btn-outline btn-success btn-sm'>
                 View
             </Link>
-            <button type='button'className='btn btn-ghost btn-sm'onClick={()=>setIsEditing(true)}>
+            {project.ownerId===authUser._id && <button type='button'className='btn btn-ghost btn-sm border border-black'onClick={()=>setIsEditing(true)}>
                 Edit 
-            </button>
+            </button>}
         </div>
       </div>
       {isEditing && <ProjectEdit project={project} setIsEditing={setIsEditing}/>}

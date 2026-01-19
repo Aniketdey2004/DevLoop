@@ -1,36 +1,33 @@
 import CollabRequest from "../models/CollabRequest.js";
 import Project from "../models/Project.js";
-import User from "../models/User.js";
+
 import Notification from "../models/Notification.js";
 
 export const sendCollabRequest=async(req,res)=>{
     try {
-        const {ownerId,projectId}=req.params;
-        if(req.user.projects.includes(projectId))
-        {
-            return res.status(403).json({message:"You cannot send a collab request to yourself"});
-        }
+        const {projectId}=req.params;
         const project=await Project.findById(projectId);
         if(!project){
             return res.status(404).json({message:"Project does not exist"});
+        }
+        if(project.ownerId.toString()===req.user._id.toString()){
+            return res.status(400).json({message:"You cannot send a collab request to yourself"});
         }
         if(project.collaborators.includes(req.user._id)){
             return res.status(409).json({message:"You are already a collaborator"});
         }
 
-        const existingRequest=await CollabRequest.exists({sender:req.user._id,receiver:ownerId,status:"pending"});
+        const existingRequest=await CollabRequest.exists({sender:req.user._id,receiver:project.ownerId,status:"pending"});
         if(existingRequest){
             return res.status(409).json({message:"You have already sent a request"});
         }
-
-        const receiver=await User.findById(ownerId).select("projects");
-        if(!receiver.projects.includes(projectId)){
-            return res.status(400).json({messsage:"The receiver is not the project owner"});
+        const rejectedRequest=await CollabRequest.exists({sender:req.user._id,receiver:project.ownerId,status:"rejected"});
+        if(rejectedRequest){
+            return res.status(400).json({message:"You have been rejected already"});
         }
-
         const newRequest=new CollabRequest({
             sender:req.user._id,
-            receiver:ownerId,
+            receiver:project.ownerId,
             status:"pending",
             project:projectId,
         });
@@ -121,3 +118,17 @@ export const getCollabRequests=async(req,res)=>{
         res.status(500).json({message:"Internal Server Error"});
     }
 };
+
+export const getCollabStatus=async(req,res)=>{
+    try {
+        const projectId=req.params.projectId;
+        const collabReq=await CollabRequest.findOne({sender:req.user._id,project:projectId});
+        if(!collabReq){
+            return res.status(404).json({message:"Request not found"});
+        }
+        res.status(200).json({message:collabReq.status});
+    } catch (error) {
+        console.log("Error in getCollabStatus controller",error);
+        res.status(500).json({message:"Internal Server Error"});
+    }
+}

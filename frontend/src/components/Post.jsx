@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from "react-router";
-import { Loader, Trash, ThumbsUp, MessageCircle, Send } from 'lucide-react';
+import { Loader, Trash, ThumbsUp, MessageCircle, Send, Clock, UserX , CircleCheckBig} from 'lucide-react';
 import { formatDistanceToNow } from "date-fns";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { axiosInstance } from '../lib/axios';
 
 export default function Post({ post, authUser, onLike, onDelete, onComment, likeMutation, deleteMutation, commentMutation }) {
   const [showComments, setShowComments] = useState(false);
@@ -29,7 +31,72 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
     setNewComment("");
   };
 
+  const queryClient = useQueryClient();
 
+  const { data: collabRequestStatus, isLoading } = useQuery({
+    queryKey: ["collabStatus", post.project?._id],
+    queryFn: async () => {
+      const res = await axiosInstance.get(`/collab/status/${post.project._id}`);
+      return res.data;
+    },
+    enabled: !!post.project,
+  });
+
+  const { mutate: sendCollabRequest } = useMutation({
+    mutationFn: async () => {
+      const res = await axiosInstance.post(`/collab/request/${post.project?._id}`);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["collabStatus", post.project?._id] });
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  });
+
+  const renderButton = () => {
+    if (isLoading) {
+      return (
+        <button className='flex justify-center items-center'>
+          <Loader className='animate-spin' />
+        </button>
+      )
+    }
+    console.log(collabRequestStatus)
+    switch (collabRequestStatus?.message) {
+      case "pending":
+        return (
+          <button className="flex items-center gap-2 hover:cursor-pointer text-sm lg:text-base" disabled>
+            <Clock/>
+            <span>Pending</span>
+          </button>
+        )
+      case "rejected":
+        return (
+        <button className="flex items-center gap-2 hover:cursor-pointer text-sm lg:text-base" disabled>
+          <UserX />
+          <span>Rejected</span>
+        </button>
+        )
+      case "accepted":
+        return(
+          <button className="flex items-center gap-2 hover:cursor-pointer text-sm lg:text-base" disabled>
+            <CircleCheckBig />
+            <span>Accepted</span>
+          </button>
+        )
+      default:
+        return (
+          <button className="flex items-center gap-2 hover:cursor-pointer text-sm lg:text-base" type='button' onClick={sendCollabRequest}>
+            <Send />
+            <span>Collab</span>
+          </button>
+        )
+    }
+  }
   return (
     <div className='bg-slate-100 p-4 mb-4 shadow rounded-lg'>
       <div className='flex items-center justify-between mb-3'>
@@ -54,17 +121,32 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
         )}
       </div>
       <p className='mb-4'>{post.content}</p>
+      {post.type === 'collab' && (
+        <div className='mb-4'>
+          <p><span className=' font-semibold'>Title:</span> {post.project.title}</p>
+          <p><span className=' font-semibold'>Description:</span> {post.project.description}</p>
+          <p className='font-semibold'>Tech Stack</p>
+          <div className='flex flex-wrap gap-2 mt-2'>
+            {post.project.techStack.map((stack, index) => (
+              <span key={index} className='bg-green-500 text-white px-3 py-1 rounded-full text-sm mb-2 flex items-center gap-1'>
+                {stack}
+              </span>
+            ))}
+          </div>
+          <p><span className=' font-semibold'>Collaborators:</span> {post.project.collaborators.length}</p>
+        </div>
+      )}
       {post.image && <img src={post.image} alt='post content' className='w-full mb-4 max-h-[40vh] object-cover' />}
       <div className='flex justify-around mb-4'>
-        <button className="flex items-center gap-2 hover:cursor-pointer" onClick={onLike} disabled={isLikingPost}>
+        <button className="flex items-center gap-2 hover:cursor-pointer text-sm lg:text-base" onClick={onLike} disabled={isLikingPost}>
           <ThumbsUp className={isLiked ? "text-blue-500 fill-blue-300" : ""} />
           <span>Like ({post.likes.length})</span>
         </button>
-        <button className="flex items-center gap-2 hover:cursor-pointer" onClick={() => setShowComments(prev => !prev)}>
+        <button className="flex items-center gap-2 hover:cursor-pointer text-sm lg:text-base" onClick={() => setShowComments(prev => !prev)}>
           <MessageCircle />
           <span>Comment</span>
         </button>
-        {/* todo:add a button for collab request */}
+        {post.type==="collab" && authUser._id!==post.project.ownerId && renderButton()}
       </div>
       {showComments &&
         <div className=''>

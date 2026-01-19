@@ -9,7 +9,7 @@ export const getPostFeed = async (req, res) => {
     })
       .populate("author", "profilePic headline username")
       .populate("comments.user", "profilePic username headline")
-      .populate("project", "title description techStack openRoles githubRepo")
+      .populate("project", "title description techStack collaborators ownerId")
       .sort({ createdAt: -1 });
 
     res.status(200).json(feedPosts);
@@ -89,7 +89,7 @@ export const getPost = async (req, res) => {
     const post = await Post.findById(postId)
       .populate("author", "username profilePic headline")
       .populate("comments.user", "username headline profilePic")
-      .populate("project", "title description techStack openRoles githubRepo");
+      .populate("project", "title description techStack collaborators ownerId");
 
     if (!post) {
       return res.status(404).json({ message: "Post does not exist" });

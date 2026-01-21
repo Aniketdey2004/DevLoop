@@ -5,8 +5,10 @@ import toast from 'react-hot-toast';
 import { axiosInstance } from '../lib/axios';
 import { X } from 'lucide-react';
 
-export default function ProjectEdit({project, setIsEditing}) {
+export default function ProjectEdit({ project, setIsEditing }) {
+
     const [newStack, setNewStack] = useState("");
+    const [newRole, setNewRole] = useState("");
     const [editedProject, setEditedProject] = useState(project || {});
 
     const queryClient = useQueryClient();
@@ -57,34 +59,28 @@ export default function ProjectEdit({project, setIsEditing}) {
                             setNewStack("");
                         }}>Add</button>
                     </div>
-                    <input type='text' placeholder='Github Repository link' className='input input-bordered w-full' value={editedProject.githubRepo} onChange={(e) => setEditedProject((prev) => ({ ...prev, githubRepo: e.target.value }))} required />
+                    <input type='text' placeholder='Github Repository link' className='input input-bordered w-full' value={editedProject.githubRepo.repoUrl} onChange={(e) => setEditedProject((prev) => ({ ...prev, githubRepo: {...prev.githubRepo,repoUrl:e.target.value} }))} required />
                     <input type='text' placeholder='Live Url (optional)' className='input input-bordered w-full' value={editedProject.liveUrl} onChange={(e) => setEditedProject((prev) => ({ ...prev, liveUrl: e.target.value }))} />
-                    <div className='space-y-2 mb-4'>
-                        <p className='font-medium'>Project Status</p>
-                        <div className='flex gap-6'>
-                            <label className='flex items-center gap-2 cursor-pointer'>
-                                <input type='radio' name='status' value='active' checked={editedProject.status === 'active'}
-                                    onChange={(e) => {
-                                        setEditedProject((prev) => ({ ...prev, status: e.target.value, requireCollaborators: false }));
-                                    }}
-                                    className='radio radio-success' />
-                                Active
-                            </label>
-                            <label className='flex items-center gap-2 cursor-pointer'>
-                                <input type='radio' name='status' value='completed' checked={editProject.status === 'completed'}
-                                    onChange={(e) => {
-                                        setEditedProject((prev) => ({ ...prev, status: e.target.value, requireCollaborators: false }));
-                                    }}
-                                    className='radio radio-success' />
-                                Completed
-                            </label>
+                    {editedProject.type !== 'portfolio' &&
+                        <div>
+                            <div className='flex flex-wrap gap-2'>
+                                {editedProject.rolesNeeded.map((role, index) => (<span key={index} className='bg-green-500 text-white px-3 py-1 rounded-full text-sm mb-2 flex items-center gap-1'>
+                                    {role}
+                                    <button type='button' onClick={() => setEditedProject((prev) => ({ ...prev, rolesNeeded: prev.rolesNeeded.filter((_, i) => i !== index) }))}><X size={14} /></button>
+                                </span>))}
+                            </div>
+                            <div className='flex gap-2'>
+                                <input type='text' placeholder='Add required Roles (Frontend, Backend, Cloud Engineer)' className='input input-bordered flex-1' value={newRole} onChange={(e) => setNewRole(e.target.value)} />
+                                <button type='button' className='btn btn-success' onClick={() => {
+                                    if (!newRole.trim()) return;
+                                    // prevent duplicates
+                                    if (editedProject.rolesNeeded.includes(newRole)) return;
+                                    setEditedProject((prev) => ({ ...prev, rolesNeeded: [...prev.rolesNeeded, newRole] }));
+                                    setNewRole("");
+                                }}>Add</button>
+                            </div>
                         </div>
-                    </div>
-                    {editedProject.status !== 'completed' &&
-                        <div className='flex ietms-center gap-3'>
-                            <input type='checkbox' className='checkbox checkbox-success' checked={editedProject.requireCollaborators} onChange={(e) => setEditedProject((prev) => ({ ...prev, requireCollaborators: e.target.checked }))} />
-                            Require Collaborators
-                        </div>}
+                    }
                     <div className='modal-action'>
                         <button type='submit' className='btn btn-success'>Edit</button>
                         <button className='btn' type='button' onClick={() => setIsEditing(false)}>

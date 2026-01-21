@@ -1,9 +1,17 @@
+import {
+  decrypt,
+  parseGithubUrl,
+  verifyDeveloperProject,
+} from "../lib/utils.js";
 import Post from "../models/Post.js";
 import Project from "../models/Project.js";
+import axios from "axios";
 
 export const getMyProjects = async (req, res) => {
   try {
-    const projects = await Project.find({ collaborators: req.user._id });
+    const projects = await Project.find({
+      $or: [{ collaborators: req.user._id }, { ownerId: req.user._id }],
+    });
     res.status(200).json(projects);
   } catch (error) {
     console.log("Error in getMyProjects controller", error);
@@ -13,50 +21,81 @@ export const getMyProjects = async (req, res) => {
 
 export const createProject = async (req, res) => {
   try {
+    if (!req.user.github?.id) {
+      return res
+        .status(403)
+        .json({ message: "Link your github account to create projects" });
+    }
     const {
       title,
       description,
+      type,
       techStack,
       githubRepo,
       liveUrl,
-      status,
-      requireCollaborators,
+      rolesNeeded,
     } = req.body;
     if (
       !title?.trim() ||
       !description?.trim() ||
-      (status !== "active" && status !== "completed") ||
-      requireCollaborators === undefined ||
+      (type !== "portfolio" && type !== "collaboration") ||
       !githubRepo?.trim() ||
-      !Array.isArray(techStack)
+      !Array.isArray(techStack) ||
+      !Array.isArray(rolesNeeded)
     ) {
       return res.status(400).json({
         message: "All field of project are required and should be valid",
       });
     }
-    if (requireCollaborators === true && status === "completed") {
-      return res.status(400).json({
-        message: "You cannot invite collaborators for a completed project",
+
+    if (type === "portfolio" && rolesNeeded.length > 0)
+      return res
+        .status(400)
+        .json({ messsage: "You cannot have open roles for portfolio project" });
+
+    let owner, repo;
+    try {
+      ({ owner, repo } = parseGithubUrl(githubRepo));
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+
+    const existingProject = await Project.findOne({
+      "githubRepo.repoOwner": owner,
+      "githubRepo.repoName": repo,
+    });
+
+    if (existingProject) {
+      return res.status(409).json({
+        message: "A project already exists with this github repo ",
       });
+    }
+
+    const { success, reason, status } = await verifyDeveloperProject(
+      decrypt(req.user.github.accessToken),
+      owner,
+      repo,
+      type,
+    );
+    if (!success) {
+      return res.status(status).json({ message: reason });
     }
 
     const newProject = new Project({
       title,
       description,
       ownerId: req.user._id,
+      type,
       techStack,
-      githubRepo,
+      githubRepo: { repoUrl: githubRepo, repoOwner: owner, repoName: repo },
       liveUrl: liveUrl?.trim() || "",
-      status,
-      requireCollaborators,
       collaborators: [req.user._id],
+      rolesNeeded,
     });
 
-    const createdProject = await newProject.save();
-    req.user.projects.push(createdProject._id);
-    await req.user.save();
+    await newProject.save();
 
-    if (requireCollaborators === true) {
+    if (type === "collaboration") {
       const newPost = new Post({
         author: req.user._id,
         content: "Looking for collaborators to build this project 🚀",
@@ -65,7 +104,7 @@ export const createProject = async (req, res) => {
       });
       await newPost.save();
     }
-    res.status(201).json({ message: "Project created" });
+    res.status(201).json({ message: "Project created successfully" });
   } catch (error) {
     console.log("Error in createProject controller", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -83,47 +122,64 @@ export const editProject = async (req, res) => {
       return res.status(403).json({ message: "You are not authorized" });
     }
 
-    const {
-      title,
-      description,
-      techStack,
-      githubRepo,
-      liveUrl,
-      status,
-      requireCollaborators,
-    } = req.body;
+    const { title, description, techStack, githubRepo, liveUrl, rolesNeeded } =
+      req.body;
     if (
       !title?.trim() ||
       !description?.trim() ||
-      (status !== "active" && status !== "completed") ||
-      requireCollaborators === undefined ||
-      !githubRepo?.trim() ||
-      !Array.isArray(techStack)
+      !githubRepo.repoUrl?.trim() ||
+      !Array.isArray(techStack) ||
+      !Array.isArray(rolesNeeded)
     ) {
       return res.status(400).json({
         message: "All field of project are required and should be valid",
       });
     }
-    if (requireCollaborators === true && status === "completed") {
-      return res.status(400).json({
-        message: "You cannot invite collaborators for a completed project",
+    if (project.type === "portfolio" && rolesNeeded.length > 0)
+      return res
+        .status(400)
+        .json({ messsage: "You cannot have open roles for portfolio project" });
+
+    let owner, repo;
+    if (project.githubRepo.repoUrl !== githubRepo.repoUrl) {
+      try {
+        ({ owner, repo } = parseGithubUrl(githubRepo.repoUrl));
+      } catch (error) {
+        return res.status(400).json({ message: error.message });
+      }
+
+      const existingProject = await Project.findOne({
+        "githubRepo.repoOwner": owner,
+        "githubRepo.repoName": repo,
       });
+
+      if (existingProject) {
+        return res.status(409).json({
+          message: "A project already exists with this github repo ",
+        });
+      }
+
+      const { success, reason, status } = await verifyDeveloperProject(
+        decrypt(req.user.github.accessToken),
+        owner,
+        repo,
+        project.type,
+      );
+      if (!success) {
+        return res.status(status).json({ message: reason });
+      }
     }
 
     const updatedProject = {
       title,
       description,
       techStack,
-      githubRepo,
+      githubRepo:githubRepo.repoUrl===project.githubRepo.repoUrl?project.githubRepo:{repoUrl:githubRepo.repoUrl,repoOwner:owner,repoName:repo},
       liveUrl: liveUrl?.trim() || "",
-      status,
-      requireCollaborators,
+      rolesNeeded,
     };
 
-    await Project.findByIdAndUpdate(
-      projectId,
-      { $set:  updatedProject  },
-    );
+    await Project.findByIdAndUpdate(projectId, { $set: updatedProject });
     res.status(200).json({ message: "Project successfully updated" });
   } catch (error) {
     console.log("Error in editProject Controller", error);

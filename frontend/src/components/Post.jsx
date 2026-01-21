@@ -57,6 +57,14 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
     }
   });
 
+  const handleSendCollabRequests=()=>{
+    if(!authUser.github){
+      toast.error("Link your github account for collaboration");
+      return;
+    }
+    sendCollabRequest();
+  }
+
   const renderButton = () => {
     if (isLoading) {
       return (
@@ -90,7 +98,7 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
         )
       default:
         return (
-          <button className="flex items-center gap-2 hover:cursor-pointer text-sm lg:text-base" type='button' onClick={sendCollabRequest}>
+          <button className="flex items-center gap-2 hover:cursor-pointer text-sm lg:text-base" type='button' onClick={handleSendCollabRequests}>
             <Send />
             <span>Collab</span>
           </button>
@@ -134,6 +142,14 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
             ))}
           </div>
           <p><span className=' font-semibold'>Collaborators:</span> {post.project.collaborators.length}</p>
+          <p>Roles Needed:</p>
+          <div className='flex flex-wrap gap-2 mt-2 '>
+            {post.project.rolesNeeded.map((role, index) => (
+              <span key={index} className='bg-green-500 text-white px-3 py-1 rounded-full text-sm mb-2 flex items-center gap-1'>
+                {role}
+              </span>
+            ))}
+          </div>
         </div>
       )}
       {post.image && <img src={post.image} alt='post content' className='w-full mb-4 max-h-[40vh] object-cover' />}

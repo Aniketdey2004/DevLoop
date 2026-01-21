@@ -116,7 +116,6 @@ export default function Notification() {
       <Link to={'/'} className='flex items-center p-2 bg-gray-50 w-48 space-x-2 hover:bg-gray-100 transition-colors'>
         <div className='flex-1 overflow-hidden'>
           <p className='font-medium truncate'>{relatedProject.title}</p>
-          <p className='text-xs text-gray-600 truncate'>{relatedProject.description}</p>
         </div>
         <ExternalLink size={14} className='text-gray-400' />
       </Link>
@@ -137,7 +136,6 @@ export default function Notification() {
                   notifications.map((notify) => (
                     <li key={notify._id} className={`bg-white border rounded-lg p-4 hover:shadow-md  hover:cursor-pointer transition-all ${!notify.read ? "border-green-500" : "border-gray-400"}`}>
                       <div className='flex items-start gap-3'>
-                        {/* todo:link it to user page when clicking on image */}
                         <Link to={`/profile/${notify.relatedUser._id}`}><img src={notify.relatedUser.profilePic || '/avatar.png'} alt='related user image' className='size-10 rounded-full shrink-0' /></Link>
                         <div className='flex-1'>
                           <div className="mb-2 flex items-center gap-2 flex-wrap">

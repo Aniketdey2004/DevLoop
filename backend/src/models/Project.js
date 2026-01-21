@@ -4,7 +4,8 @@ import Post from "./Post.js";
 const projectSchema=new mongoose.Schema({
     title:{
         type:String,
-        required:true
+        required:true,
+        trim:true
     },
     description:{
         type:String,
@@ -12,12 +13,18 @@ const projectSchema=new mongoose.Schema({
     },
     ownerId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"User"
+        ref:"User",
+        required:true
+    },
+    type:{
+        type:String,
+        enum:["portfolio","collaboration"]
     },
     techStack:[String],
     githubRepo:{
-        type:String,
-        required:true
+        repoUrl:String,
+        repoOwner:String,
+        repoName:String
     },
     liveUrl:String,
     collaborators:[
@@ -27,16 +34,8 @@ const projectSchema=new mongoose.Schema({
             default:[]
         }
     ],
-    status:{
-        type:String,
-        enum:["active","completed"],
-        required:true
-    },
-    requireCollaborators:{
-        type:Boolean,
-        required:true
-    }
-});
+    rolesNeeded:["String"],
+},{timestamps:true});
 
 //mongoose middleware for cleanup after project is deleted
 projectSchema.post("findOneAndDelete",async (project)=>{

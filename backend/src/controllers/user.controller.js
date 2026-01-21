@@ -11,7 +11,7 @@ export const getSuggestedAccounts=async(req,res)=>{
                 $ne:req.user._id,
                 $nin:following
             }
-        }).select("username headline profilePic email").limit(limitUsers);
+        }).select("username headline profilePic").limit(limitUsers);
         res.status(200).json(suggestedAccounts);
     }
     catch(error){
@@ -23,7 +23,7 @@ export const getSuggestedAccounts=async(req,res)=>{
 export const getPublicProfile=async(req,res)=>{
     try{
         const {id}=req.params;
-        const user=await User.findById(id).select("-password").populate("projects","title description gihtubRepo liveUrl");
+        const user=await User.findById(id).select("-password");
         res.status(200).json(user);
     }   
     catch(error){
@@ -49,7 +49,6 @@ export const updateProfile=async(req,res)=>{
             "location",
             "about",
             "headline",
-            "githubUrl",
             "skills",
             "experience",
             "education", 

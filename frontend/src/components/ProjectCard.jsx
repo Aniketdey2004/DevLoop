@@ -7,6 +7,7 @@ export default function ProjectCard({ project }) {
   const [isEditing,setIsEditing]=useState(false);
   const queryClient=useQueryClient();
   const authUser=queryClient.getQueryData(["authUser"]);
+  
   return (
     <div className='card bg-white border shadow-sm'>
       <div className='card-body'>

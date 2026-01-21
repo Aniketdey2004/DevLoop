@@ -7,14 +7,15 @@ import toast from "react-hot-toast";
 
 export default function ProjectCreate({ setOpen }) {
     const [newStack, setNewStack] = useState("");
+    const [newRole, setNewRole] = useState("");
     const [newProject, setNewProject] = useState({
         title: "",
         description: "",
+        type: "portfolio",
         techStack: [],
         githubRepo: "",
         liveUrl: "",
-        status: "",
-        requireCollaborators: false
+        rolesNeeded: [],
     });
 
     const queryClient = useQueryClient();
@@ -69,31 +70,46 @@ export default function ProjectCreate({ setOpen }) {
                     <input type='text' placeholder='Github Repository link' className='input input-bordered w-full' value={newProject.githubRepo} onChange={(e) => setNewProject((prev) => ({ ...prev, githubRepo: e.target.value }))} required />
                     <input type='text' placeholder='Live Url (optional)' className='input input-bordered w-full' value={newProject.liveUrl} onChange={(e) => setNewProject((prev) => ({ ...prev, liveUrl: e.target.value }))} />
                     <div className='space-y-2 mb-4'>
-                        <p className='font-medium'>Project Status</p>
+                        <p className='font-medium'>Project Type</p>
                         <div className='flex gap-6'>
                             <label className='flex items-center gap-2 cursor-pointer'>
-                                <input type='radio' name='status' value='active' checked={newProject.status === 'active'}
+                                <input type='radio' name='type' value='portfolio' checked={newProject.type === 'portfolio'}
                                     onChange={(e) => {
-                                        setNewProject((prev) => ({ ...prev, status: e.target.value, requireCollaborators: false }));
+                                        setNewProject((prev) => ({ ...prev, type: e.target.value }));
                                     }}
                                     className='radio radio-success' />
-                                Active
+                                Portfolio
                             </label>
                             <label className='flex items-center gap-2 cursor-pointer'>
-                                <input type='radio' name='status' value='completed' checked={newProject.status === 'completed'}
+                                <input type='radio' name='type' value='collaboration' checked={newProject.type === 'collaboration'}
                                     onChange={(e) => {
-                                        setNewProject((prev) => ({ ...prev, status: e.target.value, requireCollaborators: false }));
+                                        setNewProject((prev) => ({ ...prev, type: e.target.value }));
                                     }}
                                     className='radio radio-success' />
-                                Completed
+                                Collaboration
                             </label>
                         </div>
                     </div>
-                    {newProject.status !== 'completed' &&
-                        <div className='flex ietms-center gap-3'>
-                            <input type='checkbox' className='checkbox checkbox-success' checked={newProject.requireCollaborators} onChange={(e) => setNewProject((prev) => ({ ...prev, requireCollaborators: e.target.checked }))} />
-                            Require Collaborators
-                        </div>}
+                    {newProject.type !== 'portfolio' &&
+                        <div>
+                            <div className='flex flex-wrap gap-2'>
+                                {newProject.rolesNeeded.map((role, index) => (<span key={index} className='bg-green-500 text-white px-3 py-1 rounded-full text-sm mb-2 flex items-center gap-1'>
+                                    {role}
+                                    <button type='button' onClick={() => setNewProject((prev) => ({ ...prev, rolesNeeded: prev.rolesNeeded.filter((_, i) => i !== index) }))}><X size={14} /></button>
+                                </span>))}
+                            </div>
+                            <div className='flex gap-2'>
+                                <input type='text' placeholder='Add required Roles (Frontend, Backend, Cloud Engineer)' className='input input-bordered flex-1' value={newRole} onChange={(e) => setNewRole(e.target.value)} />
+                                <button type='button' className='btn btn-success' onClick={() => {
+                                    if (!newRole.trim()) return;
+                                    // prevent duplicates
+                                    if (newProject.rolesNeeded.includes(newRole)) return;
+                                    setNewProject((prev) => ({ ...prev, rolesNeeded: [...prev.rolesNeeded, newRole] }));
+                                    setNewRole("");
+                                }}>Add</button>
+                            </div>
+                        </div>
+                    }
                     <div className='modal-action'>
                         <button type='submit' className='btn btn-success'>Create</button>
                         <button className='btn' type='button' onClick={() => setOpen(false)}>

@@ -9,7 +9,7 @@ export const getPostFeed = async (req, res) => {
     })
       .populate("author", "profilePic headline username")
       .populate("comments.user", "profilePic username headline")
-      .populate("project", "title description techStack collaborators ownerId")
+      .populate("project", "title description techStack collaborators rolesNeeded")
       .sort({ createdAt: -1 });
 
     res.status(200).json(feedPosts);
@@ -22,7 +22,7 @@ export const getPostFeed = async (req, res) => {
 export const createPost = async (req, res) => {
   try {
     const { content, image, type } = req.body;
-    if (type!=="Engage" && type!=="Help" && type!=="collab") {
+    if (type!=="Engage" && type!=="Help" ) {
       return res.status(400).json({ message: "Post should have a valid type" });
     }
     if (!image && !content.trim()) {
@@ -89,7 +89,7 @@ export const getPost = async (req, res) => {
     const post = await Post.findById(postId)
       .populate("author", "username profilePic headline")
       .populate("comments.user", "username headline profilePic")
-      .populate("project", "title description techStack collaborators ownerId");
+      .populate("project", "title description techStack collaborators ownerId rolesNeeded");
 
     if (!post) {
       return res.status(404).json({ message: "Post does not exist" });

@@ -5,7 +5,7 @@ import {
 } from "../lib/utils.js";
 import Post from "../models/Post.js";
 import Project from "../models/Project.js";
-import axios from "axios";
+
 
 export const getMyProjects = async (req, res) => {
   try {

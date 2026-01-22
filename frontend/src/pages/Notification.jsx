@@ -145,8 +145,8 @@ export default function Notification() {
                           <p className='text-xs text-slate-600 mb-2'>
                               {formatDistanceToNow(new Date(notify.createdAt), { addSuffix: true })}
                           </p>
-                          {renderRelatedPost(notify.relatedPost)}
-                          {renderRelatedProject(notify.projectId)}
+                          {notify.relatedPost && renderRelatedPost(notify.relatedPost)}
+                          {notify.relatedProject && renderRelatedProject(notify.projectId)}
                         </div>
                         <button className='text-red-500 hover:text-red-700 hover:cursor-pointer transition-colors' onClick={()=>deleteNotification(notify._id)} >
                           <Trash2 />

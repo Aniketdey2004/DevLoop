@@ -73,7 +73,6 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
         </button>
       )
     }
-    console.log(collabRequestStatus)
     switch (collabRequestStatus?.message) {
       case "pending":
         return (

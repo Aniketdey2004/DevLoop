@@ -89,6 +89,7 @@ export const inviteToRepo = async ({
   githubUsername,
   ownerAccessToken,
 }) => {
+  console.log(repoOwner, repoName, githubUsername, ownerAccessToken)
   await axios.put(
     `https://api.github.com/repos/${repoOwner}/${repoName}/collaborators/${githubUsername}`,
     {},

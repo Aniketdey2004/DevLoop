@@ -4,10 +4,9 @@ import bcrypt from "bcryptjs";
 import { ENV } from "../lib/env.js";
 import { sendWelcomeMail } from "../emails/emailHandler.js";
 import { OAuth2Client } from "google-auth-library";
-import { generateState } from "arctic";
-import { github } from "../lib/oAuth/github.js";
 import axios from "axios";
 import { encrypt } from "../lib/utils.js";
+import crypto from "crypto";
 
 const client = new OAuth2Client(ENV.GOOGLE_CLIENT_ID);
 
@@ -147,10 +146,16 @@ export const getGithubAuthorizationPage = async (req, res) => {
   if (req.user.github && req.user.github.id) {
     return res.status(400).json({ message: "Already linked to github" });
   }
-  const state = generateState();
-  const url = github.createAuthorizationURL(state, {
-    scopes: ["read:user", "repo"],
+  const state = crypto.randomUUID();
+  
+  const params=new URLSearchParams({
+    client_id: ENV.GITHUB_CLIENT_ID,
+    redirect_uri :`${ENV.BACKEND_URL}/api/v1/auth/github/callback`,
+    scope:"read:user repo",
+    state,
+    allow_signup:"true"
   });
+
   const cookieConfig = {
     httpOnly: true,
     secure: true,
@@ -159,7 +164,7 @@ export const getGithubAuthorizationPage = async (req, res) => {
   };
 
   res.cookie("github_oauth_state", state, cookieConfig);
-  res.redirect(url.toString());
+  res.redirect(`https://github.com/login/oauth/authorize?${params}`);
 };
 
 
@@ -172,8 +177,24 @@ export const githubCallback=async(req,res)=>{
     }
 
     try{
-        const tokens=await github.validateAuthorizationCode(code);
-        const accessToken = tokens.data.access_token;
+        const tokenRes=await axios.post(
+          "https://github.com/login/oauth/access_token",
+          {
+            client_id:ENV.GITHUB_CLIENT_ID,
+            client_secret:ENV.GITHUB_CLIENT_SECRET,
+            code
+          },
+          {
+            headers:{
+              Accept: "application/json"
+            }
+          }
+        );
+
+        const accessToken = tokenRes.data.access_token;
+        if(!accessToken){
+          throw new Error("Github access token not received");
+        }
         const githubUserRes = await axios.get( "https://api.github.com/user", { headers: { Authorization: `Bearer ${accessToken}` } } );
         const githubUser=githubUserRes.data;
 
@@ -189,7 +210,7 @@ export const githubCallback=async(req,res)=>{
         res.redirect(`${ENV.FRONTEND_URL}/profile/${req.user._id}`);
     }
     catch(error){
-        console.log("Error in githubCallback controller",error);
+        console.log("Error in githubCallback controller",error.response?.data || error);
         res.redirect(ENV.FRONTEND_URL);
     }
 };

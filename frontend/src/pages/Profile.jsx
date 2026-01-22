@@ -42,7 +42,7 @@ export default function Profile() {
 
   if (isLoading)
     return (
-      <div className='flex justify-center items-center bg-base-300'>
+      <div className='flex justify-center items-center h-full'>
         <Loader className='animate-spin' />
       </div>
     )
@@ -54,14 +54,14 @@ export default function Profile() {
   };
 
   return (
-      <div className='mx-auto max-w-4xl  bg-slate-50  lg:rounded-t-md lg:my-2 h-[91vh] overflow-y-auto hide-scrollbar'>
+      <div className='mx-auto max-w-4xl  bg-slate-50  lg:rounded-t-md lg:my-2 h-[91vh] overflow-y-auto hide-scrollbar h-full'>
         <ProfileHeader userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} isFollowing={isFollowing} />
         <GithubComp userData={userData} isOwnProfile={isOwnProfile} />
         <AboutSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
         <ExperienceSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
         <EducationSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
         <SkillsSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
-        {/* project section remaining */}
+        {/* create a profile project section only list the project and */}
       </div>
   )
 }

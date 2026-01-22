@@ -34,7 +34,7 @@ export default function Feed() {
     },
     onSuccess: (data,postId) => {
       toast.success(data.message);
-      queryClient.invalidateQueries("posts");
+      queryClient.invalidateQueries({queryKey:["posts"]});
       queryClient.invalidateQueries({queryKey:["posts",postId]});
     },
     onError: (error) => {

@@ -3,6 +3,7 @@ import { axiosInstance } from '../lib/axios';
 import toast from 'react-hot-toast';
 import { Image, Loader, XIcon } from 'lucide-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Link } from 'react-router';
 
 
 export default function PostCreation() {
@@ -21,7 +22,7 @@ export default function PostCreation() {
     },
     onSuccess: (data) => {
       toast.success(data.message);
-      queryClient.invalidateQueries("posts");
+      queryClient.invalidateQueries({queryKey:["posts"]});
     },
     onError: (error) => {
       toast.error(error.response.data.message);
@@ -61,7 +62,7 @@ export default function PostCreation() {
   return (
     <div className='bg-slate-50 rounded-lg shadow mb-4 p-4'>
       <div className='flex space-x-3'>
-        <img src={authUser.profilePic || "./avatar.png"} alt={authUser.username} className='h-12 w-12 rounded-full' />
+        <Link to={`/profile/${authUser._id}`}><img src={authUser.profilePic || "./avatar.png"} alt={authUser.username} className='h-12 w-12 rounded-full' /></Link>
         <textarea className="textarea h-28 flex-1 p-4" placeholder="What's on your mind?" onChange={(e) => setContent(e.target.value)} value={content}></textarea>
       </div>
       {image && //if selected image exists
@@ -72,7 +73,7 @@ export default function PostCreation() {
       }
       <div className='flex justify-between mt-4'>
         <div className='flex gap-3 items-center'>
-          <label className='flex gap-2 hover:cursor-pointer hover:bg-green-500 hover:text-white transition-colors rounded-lg p-2'>
+          <label className='flex gap-2 hover:cursor-pointer hover:bg-green-500 hover:text-white transition-colors rounded-md p-2'>
             <Image />
             <span className='font-semibold'>Photo</span>
             <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />

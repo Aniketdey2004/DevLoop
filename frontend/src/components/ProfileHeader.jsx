@@ -82,12 +82,13 @@ export default function ProfileHeader({ userData, isOwnProfile, onSave, isFollow
           <input type='text' value={editedData.username ?? userData.username} name='username' onChange={(e) => setEditedData((prev) => ({ ...prev, [e.target.name]: e.target.value }))} className='text-2xl font-bold mb-2 text-center w-full'/>
         ) : (<h1 className='text-2xl font-bold'>{userData.username}</h1>)}
         {isEditing ? (
-          <input type='text' value={editedData.headline ?? userData.headline} name='headline' onChange={(e) => setEditedData((prev) => ({ ...prev, [e.target.name]: e.target.value }))} className='text-gray-600 text-center w-full' />
-        ) : (<p className='text-xl font-medium text-gray-500'>{userData.headline}</p>)}
+          <input type='text' value={editedData.headline ?? userData.headline} name='headline' onChange={(e) => setEditedData((prev) => ({ ...prev, [e.target.name]: e.target.value }))} className='text-gray-600 text-center w-full lg:text-xl' />
+        ) : (<p className=' font-medium text-gray-500  lg:text-lg'>{userData.headline}</p>)}
         <div className='flex justify-center items-center mt-2'>
-          <MapPin className='size-8 text-gray-500 mr-1' />
-          {isEditing ? (<input type='text' value={editedData.location ?? userData.location} name='location' onChange={(e) => setEditedData((prev) => ({ ...prev, [e.target.name]: e.target.value }))} className='text-center'/>) : (<p className='text-gray-600'>{userData.location}</p>)}
+          <MapPin className='size-4 lg:size-8 text-gray-500 mr-1' />
+          {isEditing ? (<input type='text' value={editedData.location ?? userData.location} name='location' onChange={(e) => setEditedData((prev) => ({ ...prev, [e.target.name]: e.target.value }))} className='text-center lg:text-lg'/>) : (<p className='text-gray-600 lg:text-lg'>{userData.location}</p>)}
         </div>
+        <div className='text-slate-600'>{userData.followers.length} followers</div>
       </div>
       <div className='px-4 flex justify-center'>
         {isOwnProfile ? (isEditing ? (
@@ -99,7 +100,7 @@ export default function ProfileHeader({ userData, isOwnProfile, onSave, isFollow
         >
           Unfollow
         </button>) : (<button
-          className="btn btn-outline btn-success rounded-2xl cursor-pointer"
+          className="btn btn-outline btn-success rounded-2xl shrink-0 hover:bg-green-500 text-green-500 border-green-500 hover:text-white transition-colors"
           onClick={() => followUser(userData._id)}
         >
           Follow

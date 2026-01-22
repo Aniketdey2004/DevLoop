@@ -21,7 +21,7 @@ export default function ProjectCard({ project }) {
           ))}
         </div>
         <div className='card-actions justify-between mt-4'>
-            <Link to={`/project/${project._id}`} className='btn btn-outline btn-success btn-sm'>
+            <Link to={`/project/${project._id}`} className='btn btn-outline btn-success rounded-xl shrink-0 hover:bg-green-500 text-green-500 border-green-500 hover:text-white transition-colors btn-sm'>
                 View
             </Link>
             {project.ownerId===authUser._id && <button type='button'className='btn btn-ghost btn-sm border border-black'onClick={()=>setIsEditing(true)}>

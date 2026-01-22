@@ -28,22 +28,22 @@ export default function Sidebar() {
             <p className='text-slate-600'>{authUser.headline}</p>
             <p className='text-slate-600 text-xs mt-2'>{followers?.length} followers</p>
         </div>
-        <div className='p-6 border-t border-slate-400'>
-            <div className='mb-3'>
-                <Link to="/notifications">
-                    <Bell className='inline-block  mr-2'/>
+        <div className=' py-4 border-t border-slate-400'>
+            <div className='mb-2 hover:bg-slate-100 px-4 py-1 cursor-pointer'>
+                <Link to="/notifications" className='flex items-center gap-2'>
+                    <Bell className='inline-block'/>
                     <span className='text-lg '>Notifications</span>
                 </Link>
             </div>
-            <div className='mb-3'>
-                <Link to="/network">
-                    <Waypoints className='inline-block mr-2'/>
+            <div className='mb-2 px-4 hover:bg-slate-100 px-4 py-1 cursor-pointer'>
+                <Link to="/network" className='flex items-center gap-2'>
+                    <Waypoints className='inline-block '/>
                     <span className='text-lg '>My Network</span>
                 </Link>
             </div>
-            <div className='mb-3'>
-                <Link to="/project">
-                    <PanelsTopLeft className='inline-block  mr-2'/>
+            <div className='mb-2 px-4 hover:bg-slate-100 px-4 py-1 cursor-pointer'>
+                <Link to="/project" className='flex items-center gap-2'>
+                    <PanelsTopLeft className='inline-block'/>
                     <span className='text-lg '>My projects</span>
                 </Link>
             </div>

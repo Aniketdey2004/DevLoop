@@ -13,8 +13,8 @@ export default function GithubComp({ userData, isOwnProfile }) {
                 <>
                     <div className="flex items-center gap-2">
                         <Github className="w-6 h-6" />
-                        <span className="text-2xl font-semibold">GitHub:</span>
-                        <span className="text-2xl text-gray-700">
+                        <span className="text-lg lg:text-2xl font-semibold">GitHub:</span>
+                        <span className="text-lg lg:text-2xl text-gray-700">
                             {userData.github?.username}
                         </span>
                     </div>
@@ -22,7 +22,7 @@ export default function GithubComp({ userData, isOwnProfile }) {
                         href={userData.github.profileUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-block w-fit bg-green-500 text-white py-2 px-6 rounded-full font-medium transition hover:bg-green-600 shadow-md"
+                        className="inline-block w-fit bg-green-500 text-white py-2 px-6 rounded-full font-medium transition hover:bg-green-600 shadow-md lg:text-lg"
                     >
                         View Profile
                     </a>

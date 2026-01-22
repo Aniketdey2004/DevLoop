@@ -29,51 +29,53 @@ export default function Project() {
   });
 
   return (
-    <div className="h-full overflow-y-auto max-w-8xl mx-auto p-4 lg:p-6 space-y-6 hide-scrollbar">
-      {
-        !authUser.github && (
-          <div role="alert" className="alert alert-error">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span>You need to link your DevLoop account to Github for Project collaboration and creation</span>
+    <div className='h-full overflow-y-auto lg:mt-2 w-full max-w-7xl mx-auto hide-scrollbar'>
+      <div className="bg-slate-50 space-y-6 p-6 rounded-md">
+        {
+          !authUser.github && (
+            <div role="alert" className="alert alert-error">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>You need to link your DevLoop account to Github for Project collaboration and creation</span>
+            </div>
+
+          )
+        }
+        <ProjectHeader setOpen={setOpen} />
+
+        <div className="card bg-base-100 border">
+          <div className="card-body max-h-[70vh] overflow-y-auto space-y-3 p-0">
+            <div className="sticky top-0 z-10 bg-base-100 px-6 py-4 rounded-t-lg">
+              <h2 className="text-lg lg:text-2xl font-semibold">
+                Your Projects
+              </h2>
+            </div>
+
+            <div className="px-6 pb-4 space-y-4">
+              {!isLoadingProjects ? (projects.length > 0 ? (projects.map((project) => (<ProjectCard key={project._id} project={project} />))) : (<p className='text-slate-500'>You haven’t created any projects yet.</p>)) : (<p>Loading your projects...</p>)}
+            </div>
+
           </div>
-
-        )
-      }
-      <ProjectHeader setOpen={setOpen} />
-
-      <div className="card bg-base-100 border">
-        <div className="card-body max-h-[70vh] overflow-y-auto space-y-3 p-0">
-          <div className="sticky top-0 z-10 bg-base-100 px-6 py-4 rounded-t-lg">
-            <h2 className="text-2xl font-semibold">
-              Your Projects
-            </h2>
-          </div>
-
-          <div className="px-6 pb-4 space-y-4">
-            {!isLoadingProjects ? (projects.length > 0 ? (projects.map((project) => (<ProjectCard key={project._id} project={project} />))) : (<p className='text-slate-500'>You haven’t created any projects yet.</p>)) : (<p>Loading your projects...</p>)}
-          </div>
-
         </div>
-      </div>
 
-      <div className="card bg-base-100 border">
-        <div className="card-body max-h-[70vh] overflow-y-auto space-y-3 p-0">
-          <div className="sticky top-0 z-10 bg-base-100 px-6 py-4 rounded-t-lg">
-            <h2 className="text-2xl font-semibold">
-              Collaboration Requests
-            </h2>
+        <div className="card bg-base-100 border">
+          <div className="card-body max-h-[70vh] overflow-y-auto space-y-3 p-0">
+            <div className="sticky top-0 z-10 bg-base-100 px-6 py-4 rounded-t-lg">
+              <h2 className="text-lg lg:text-2xl font-semibold">
+                Collaboration Requests
+              </h2>
+            </div>
+
+            <div className="px-6 pb-4 space-y-4">
+              {!isLoadingCollabRq ? (collabRequests.length > 0 ? (collabRequests.map((rq) => (<CollabRqCard key={rq._id} rq={rq} />))) : (<p className='text-slate-500'>You don't have any requests yet</p>)) : (<p>Loading your collab requests</p>)}
+            </div>
+
           </div>
-
-          <div className="px-6 pb-4 space-y-4">
-            {!isLoadingCollabRq ? (collabRequests.length > 0 ? (collabRequests.map((rq) => (<CollabRqCard key={rq._id} rq={rq} />))) : (<p className='text-slate-500'>You don't have any requests yet</p>)) : (<p>Loading your collab requests</p>)}
-          </div>
-
         </div>
-      </div>
 
-      {open && <ProjectCreate setOpen={setOpen} />}
+        {open && <ProjectCreate setOpen={setOpen} />}
+      </div>
     </div>
   );
 }

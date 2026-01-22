@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from "react-router";
-import { Loader, Trash, ThumbsUp, MessageCircle, Send, Clock, UserX , CircleCheckBig} from 'lucide-react';
+import { Loader, Trash, ThumbsUp, MessageCircle, Send, Clock, UserX, CircleCheckBig } from 'lucide-react';
 import { formatDistanceToNow } from "date-fns";
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { axiosInstance } from '../lib/axios';
 
 export default function Post({ post, authUser, onLike, onDelete, onComment, likeMutation, deleteMutation, commentMutation }) {
+  const [open, setOpen] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [newComment, setNewComment] = useState("");
   const isOwner = authUser._id === post.author._id;
@@ -16,8 +17,7 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
   const isDeletingPost = deleteMutation.isPending && deleteMutation.variables === post._id;
 
   const handleDeletePost = () => {
-    if (!window.confirm("Are you sure you want to delete this post?")) return;
-    onDelete();
+    setOpen(true);
   };
 
   const handleCreateComment = (e) => {
@@ -57,8 +57,8 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
     }
   });
 
-  const handleSendCollabRequests=()=>{
-    if(!authUser.github){
+  const handleSendCollabRequests = () => {
+    if (!authUser.github) {
       toast.error("Link your github account for collaboration");
       return;
     }
@@ -77,19 +77,19 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
       case "pending":
         return (
           <button className="flex items-center gap-2 hover:cursor-pointer text-sm lg:text-base" disabled>
-            <Clock/>
+            <Clock />
             <span>Pending</span>
           </button>
         )
       case "rejected":
         return (
-        <button className="flex items-center gap-2 hover:cursor-pointer text-sm lg:text-base" disabled>
-          <UserX />
-          <span>Rejected</span>
-        </button>
+          <button className="flex items-center gap-2 hover:cursor-pointer text-sm lg:text-base" disabled>
+            <UserX />
+            <span>Rejected</span>
+          </button>
         )
       case "accepted":
-        return(
+        return (
           <button className="flex items-center gap-2 hover:cursor-pointer text-sm lg:text-base" disabled>
             <CircleCheckBig />
             <span>Accepted</span>
@@ -109,13 +109,13 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
       <div className='flex items-center justify-between mb-3'>
         <div className='flex items-center gap-3'>
           <Link to={`/profile/${post?.author?._id}`}>
-            <img src={post.author.profilePic || "./avatar.png"} className='size-12 rounded-full' alt='post author' />
+            <img src={post.author.profilePic || "./avatar.png"} className='size-12 rounded-full shrink-0' alt='post author' />
           </Link>
           <div>
             <Link to={`/profile/${post?.author?._id}`}>
               <h3 className='font-semibold'>{post.author.username}</h3>
             </Link>
-            <p className='text-sm text-slate-600'>{post.author.headline}</p>
+            <p className='text-sm text-slate-600 line-clamp-1'>{post.author.headline}</p>
             <p className='text-xs text-slate-600'>
               {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
             </p>
@@ -127,12 +127,12 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
           </button>
         )}
       </div>
-      <p className='mb-4'>{post.content}</p>
+      <p className='mb-4 text-sm lg:text-base'>{post.content}</p>
       {post.type === 'collab' && (
         <div className='mb-4'>
-          <p><span className=' font-semibold'>Title:</span> {post.project.title}</p>
-          <p><span className=' font-semibold'>Description:</span> {post.project.description}</p>
-          <p className='font-semibold'>Tech Stack</p>
+          <p><span className='text-sm lg:text-base font-semibold'>Title:</span> {post.project.title}</p>
+          <p><span className='text-sm lg:text-base font-semibold'>Description:</span> {post.project.description}</p>
+          <p className='text-sm lg:text-base font-semibold'>Tech Stack</p>
           <div className='flex flex-wrap gap-2 mt-2'>
             {post.project.techStack.map((stack, index) => (
               <span key={index} className='bg-green-500 text-white px-3 py-1 rounded-full text-sm mb-2 flex items-center gap-1'>
@@ -140,8 +140,8 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
               </span>
             ))}
           </div>
-          <p><span className=' font-semibold'>Collaborators:</span> {post.project.collaborators.length}</p>
-          <p>Roles Needed:</p>
+          <p><span className='text-sm lg:text-base font-semibold'>Collaborators:</span> {post.project.collaborators.length}</p>
+          <p className='text-sm lg:text-base'>Roles Needed:</p>
           <div className='flex flex-wrap gap-2 mt-2 '>
             {post.project.rolesNeeded.map((role, index) => (
               <span key={index} className='bg-green-500 text-white px-3 py-1 rounded-full text-sm mb-2 flex items-center gap-1'>
@@ -151,7 +151,7 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
           </div>
         </div>
       )}
-      {post.image && <img src={post.image} alt='post content' className='w-full mb-4 max-h-[40vh] object-cover' />}
+      {post.image && <img src={post.image} alt='post content' className='w-full mb-4 max-h-[50vh] object-cover' />}
       <div className='flex justify-around mb-4'>
         <button className="flex items-center gap-2 hover:cursor-pointer text-sm lg:text-base" onClick={onLike} disabled={isLikingPost}>
           <ThumbsUp className={isLiked ? "text-blue-500 fill-blue-300" : ""} />
@@ -161,15 +161,14 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
           <MessageCircle />
           <span>Comment</span>
         </button>
-        {post.type==="collab" && authUser._id!==post.project.ownerId && renderButton()}
+        {post.type === "collab" && authUser._id !== post.project.ownerId && renderButton()}
       </div>
       {showComments &&
         <div className=''>
           <div className='overflow-y-auto max-h-70 space-y-4 mb-3'>
             {post.comments.map((comment) => (
               <div className='flex gap-2' key={comment._id}>
-                {/* todo:link the image to the profile page of user */}
-                <img src={comment.user.profilePic || '/avatar.png'} alt={comment.user.username} className='size-12 rounded-full shrink-0' />
+                <Link to={`/profile/${post?.author?._id}`}><img src={comment.user.profilePic || '/avatar.png'} alt={comment.user.username} className='size-12 rounded-full shrink-0' /></Link>
                 <div>
                   <div className='flex gap-2 items-center'>
                     <h3 className='font-medium'>{comment.user.username}</h3>
@@ -204,7 +203,19 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
           </form>
         </div>
       }
-
+      {open &&
+        <div className='modal modal-open'>
+          <div className='modal-box relative'>
+            <h3 className='font-semibold text-lg mb-4'>Are you sure you want to delete?</h3>
+            <div className='modal-action'>
+              <button type='button' className='btn btn-success' onClick={()=>{setOpen(false);onDelete()}}>Yes</button>
+              <button className='btn' type='button' onClick={() => setOpen(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      }
     </div>
   )
 }

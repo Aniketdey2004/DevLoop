@@ -12,71 +12,82 @@ export default function Project() {
   const queryClient = useQueryClient();
   const authUser = queryClient.getQueryData(["authUser"]);
 
-  const { data: projects, isLoading: isLoadingProjects } = useQuery({
+  const { data: projects = [], isLoading: isLoadingProjects } = useQuery({
     queryKey: ["projects"],
-    queryFn: async () => {
-      const res = await axiosInstance.get("/projects");
-      return res.data;
-    }
+    queryFn: async () => (await axiosInstance.get("/projects")).data,
   });
 
-  const { data: collabRequests, isLoading: isLoadingCollabRq } = useQuery({
+  const { data: collabRequests = [], isLoading: isLoadingCollabRq } = useQuery({
     queryKey: ["collabRequests"],
-    queryFn: async () => {
-      const res = await axiosInstance.get("/collab/requests");
-      return res.data;
-    }
+    queryFn: async () => (await axiosInstance.get("/collab/requests")).data,
   });
 
   return (
-    <div className='h-full overflow-y-auto lg:mt-2 w-full max-w-7xl mx-auto hide-scrollbar'>
-      <div className="bg-slate-50 space-y-6 p-6 rounded-md">
-        {
-          !authUser.github && (
-            <div role="alert" className="alert alert-error">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span>You need to link your DevLoop account to Github for Project collaboration and creation</span>
-            </div>
-
-          )
-        }
+    <div className="h-full overflow-y-auto w-full bg-slate-50 px-6 py-6 hide-scrollbar">
+      <div className="max-w-7xl mx-auto space-y-8">
+        {!authUser.github && (
+          <div className="alert alert-error shadow-sm">
+            <span>
+              Link your GitHub account to create or collaborate on projects.
+            </span>
+          </div>
+        )}
         <ProjectHeader setOpen={setOpen} />
-
-        <div className="card bg-base-100 border">
-          <div className="card-body max-h-[70vh] overflow-y-auto space-y-3 p-0">
-            <div className="sticky top-0 z-10 bg-base-100 px-6 py-4 rounded-t-lg">
-              <h2 className="text-lg lg:text-2xl font-semibold">
-                Your Projects
-              </h2>
-            </div>
-
-            <div className="px-6 pb-4 space-y-4">
-              {!isLoadingProjects ? (projects.length > 0 ? (projects.map((project) => (<ProjectCard key={project._id} project={project} />))) : (<p className='text-slate-500'>You haven’t created any projects yet.</p>)) : (<p>Loading your projects...</p>)}
-            </div>
-
+        <section className="bg-white rounded-xl border border-slate-200 shadow-sm">
+          <div className="px-6 py-4 border-b">
+            <h2 className="text-xl font-semibold text-slate-800">
+              My Projects
+            </h2>
+            <p className="text-sm text-slate-500 mt-1">
+              Projects you own or collaborate on
+            </p>
           </div>
-        </div>
 
-        <div className="card bg-base-100 border">
-          <div className="card-body max-h-[70vh] overflow-y-auto space-y-3 p-0">
-            <div className="sticky top-0 z-10 bg-base-100 px-6 py-4 rounded-t-lg">
-              <h2 className="text-lg lg:text-2xl font-semibold">
-                Collaboration Requests
-              </h2>
-            </div>
-
-            <div className="px-6 pb-4 space-y-4">
-              {!isLoadingCollabRq ? (collabRequests.length > 0 ? (collabRequests.map((rq) => (<CollabRqCard key={rq._id} rq={rq} />))) : (<p className='text-slate-500'>You don't have any requests yet</p>)) : (<p>Loading your collab requests</p>)}
-            </div>
-
+          <div className="p-6">
+            {isLoadingProjects ? (
+              <p className="text-slate-500">Loading projects…</p>
+            ) : projects.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {projects.map(project => (
+                  <ProjectCard key={project._id} project={project} />
+                ))}
+              </div>
+            ) : (
+              <p className="text-slate-500">
+                You haven’t created any projects yet.
+              </p>
+            )}
           </div>
-        </div>
+        </section>
+
+
+        <section className="bg-white rounded-xl border border-slate-200 shadow-sm">
+          <div className="px-6 py-4 border-b">
+            <h2 className="text-xl font-semibold text-slate-800">
+              Collaboration Requests
+            </h2>
+            <p className="text-sm text-slate-500 mt-1">
+              Requests from developers who want to collaborate
+            </p>
+          </div>
+
+          <div className="p-6 space-y-4">
+            {isLoadingCollabRq ? (
+              <p className="text-slate-500">Loading requests…</p>
+            ) : collabRequests.length > 0 ? (
+              collabRequests.map(rq => (
+                <CollabRqCard key={rq._id} rq={rq} />
+              ))
+            ) : (
+              <p className="text-slate-500">
+                No collaboration requests yet.
+              </p>
+            )}
+          </div>
+        </section>
 
         {open && <ProjectCreate setOpen={setOpen} />}
       </div>
     </div>
   );
 }
-

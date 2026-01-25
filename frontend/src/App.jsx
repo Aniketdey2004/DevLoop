@@ -13,6 +13,8 @@ import PageLoader from './components/PageLoader';
 import { useQuery } from '@tanstack/react-query';
 import { axiosInstance } from './lib/axios';
 import toast from 'react-hot-toast';
+import ProjectPage from './pages/ProjectPage';
+
 
 
 function App() {
@@ -49,8 +51,10 @@ function App() {
           <Route path='profile/:userId' element={<Profile/>}/>
           <Route path="network" element={<Network/>}/>
           <Route path='notifications' element={<Notification/>}/>
+          <Route path='project/:projectId' element={<ProjectPage/>}/>
           <Route path='project' element={<Project/>}/>
           <Route path='posts/:postId' element={<PostPage/>}/>
+       
         </Route>
         <Route path='/signup' element={!authUser?<SignUpPage/>:<Navigate to={"/"}/>}/>
         <Route path='/login' element={!authUser?<LoginPage/>:<Navigate to={"/"}/>}/>

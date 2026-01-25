@@ -22,7 +22,7 @@ export default function ProjectCreate({ setOpen }) {
 
     const { mutate: createProject } = useMutation({
         mutationFn: async () => {
-            const res = await axiosInstance.post('/project/create', newProject);
+            const res = await axiosInstance.post('/projects/create', newProject);
             return res.data;
         },
         onSuccess: (data) => {

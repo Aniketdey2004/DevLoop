@@ -60,7 +60,7 @@ export default function ProfileHeader({ userData, isOwnProfile, onSave, isFollow
 
   return (
     <div className='mb-6'>
-      <div style={{ backgroundImage: `url('${editedData.bannerImg || userData.bannerImg || "/banner.png"}')` }} className='h-48 lg:rounded-t-md bg-cover bg-center relative '>
+      <div style={{ backgroundImage: `url('${editedData.bannerImg || userData.bannerImg || "/banner.png"}')` }} className='h-48  bg-cover bg-center relative '>
         {isEditing && (
           <label className='absolute top-3 right-3 bg-white rounded-full shadow hover:cursor-pointer p-1'>
             <Camera />

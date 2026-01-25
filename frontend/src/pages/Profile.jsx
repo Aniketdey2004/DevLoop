@@ -54,7 +54,7 @@ export default function Profile() {
   };
 
   return (
-      <div className='mx-auto max-w-4xl  bg-slate-50  lg:rounded-t-md lg:my-2 h-[91vh] overflow-y-auto hide-scrollbar h-full'>
+      <div className='mx-auto max-w-4xl bg-slate-50  overflow-y-auto hide-scrollbar h-full'>
         <ProfileHeader userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} isFollowing={isFollowing} />
         <GithubComp userData={userData} isOwnProfile={isOwnProfile} />
         <AboutSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />

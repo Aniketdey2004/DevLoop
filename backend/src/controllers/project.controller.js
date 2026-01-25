@@ -192,8 +192,8 @@ export const getProject = async (req, res) => {
   try {
     const project = await Project.findById(projectId).populate(
       "collaborators",
-      "name username profilePic headline",
-    );
+      "username profilePic headline")
+    .populate("ownerId","username profilePic");
     if (!project) {
       return res.status(404).json({ message: "No such project exists" });
     }

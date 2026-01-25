@@ -15,7 +15,7 @@ export default function ProjectEdit({ project, setIsEditing }) {
 
     const { mutate: editProject } = useMutation({
         mutationFn: async () => {
-            const res = await axiosInstance.patch(`/project/${project._id}`, editedProject);
+            const res = await axiosInstance.patch(`/projects/${project._id}`, editedProject);
             return res.data;
         },
         onSuccess: (data) => {

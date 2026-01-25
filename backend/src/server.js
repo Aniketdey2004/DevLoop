@@ -9,6 +9,7 @@ import postRoutes from "./routes/post.route.js";
 import notifyRoutes from "./routes/notification.route.js";
 import projectRoutes from "./routes/project.route.js";
 import collabRoutes from "./routes/collab.route.js";
+import discussionRoutes from './routes/discussion.route.js';
 
 const app=express();
 const PORT=ENV.PORT || 8080;
@@ -20,9 +21,9 @@ app.use("/api/v1/auth",authRoutes); //authentication routes
 app.use("/api/v1/users",userRoutes); //user routes
 app.use("/api/v1/posts",postRoutes); //post routes
 app.use("/api/v1/notifications",notifyRoutes); //notification routes
-app.use("/api/v1/project",projectRoutes);//project routes
+app.use("/api/v1/projects",projectRoutes);//project routes
 app.use("/api/v1/collab",collabRoutes); //collab Routes
-
+app.use("/api/v1/discussions",discussionRoutes);//discussion routes 
 
 app.listen(PORT,()=>{
     console.log(`App is listening on PORT ${PORT}`);

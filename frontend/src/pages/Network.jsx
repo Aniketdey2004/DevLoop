@@ -89,7 +89,7 @@ export default function Network() {
     }
 
     return (
-        <div className='h-full w-full max-w-8xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6 p-4'>
+        <div className='h-full w-full max-w-8xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6 lg:p-4'>
             <div className='hidden lg:block lg:col-span-1'>
                 <Sidebar />
             </div>

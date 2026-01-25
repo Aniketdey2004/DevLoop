@@ -15,7 +15,7 @@ export default function Project() {
   const { data: projects, isLoading: isLoadingProjects } = useQuery({
     queryKey: ["projects"],
     queryFn: async () => {
-      const res = await axiosInstance.get("/project");
+      const res = await axiosInstance.get("/projects");
       return res.data;
     }
   });

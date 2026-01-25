@@ -33,8 +33,7 @@ app.use("/api/v1/discussions",discussionRoutes);//discussion routes
 if(ENV.NODE_ENV === "production")
 {
     app.use(express.static(path.join(__dirname,"../frontend/dist")));
-
-    app.get("/:path*",(_,res)=>{
+    app.get("*", (_, res) => {  // Changed from "/:path*" to "*"
         res.sendFile(path.resolve(__dirname,"../frontend","dist","index.html"));
     });
 }

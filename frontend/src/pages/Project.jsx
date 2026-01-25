@@ -14,12 +14,18 @@ export default function Project() {
 
   const { data: projects = [], isLoading: isLoadingProjects } = useQuery({
     queryKey: ["projects"],
-    queryFn: async () => (await axiosInstance.get("/projects")).data,
+    queryFn: async () => {
+      const res=await axiosInstance.get("/projects");
+      return res.data;
+    }
   });
 
   const { data: collabRequests = [], isLoading: isLoadingCollabRq } = useQuery({
     queryKey: ["collabRequests"],
-    queryFn: async () => (await axiosInstance.get("/collab/requests")).data,
+    queryFn: async () => {
+      const res=await axiosInstance.get("/collab/requests");
+      return res.data;
+    }
   });
 
   return (

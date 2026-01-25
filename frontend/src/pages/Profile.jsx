@@ -10,6 +10,7 @@ import EducationSection from "../components/EducationSection";
 import ExperienceSection from '../components/ExperienceSection';
 import SkillsSection from "../components/SkillSection.jsx";
 import GithubComp from '../components/GithubComp.jsx';
+import ProjectSection from '../components/ProjectSection.jsx';
 
 export default function Profile() {
   const { userId } = useParams();
@@ -61,7 +62,7 @@ export default function Profile() {
         <ExperienceSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
         <EducationSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
         <SkillsSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
-        {/* create a profile project section only list the project and */}
+        <ProjectSection userData={userData}/>
       </div>
   )
 }

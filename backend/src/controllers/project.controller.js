@@ -9,9 +9,7 @@ import Project from "../models/Project.js";
 
 export const getMyProjects = async (req, res) => {
   try {
-    const projects = await Project.find({
-      $or: [{ collaborators: req.user._id }, { ownerId: req.user._id }],
-    });
+    const projects = await Project.find({collaborators:req.user._id});
     res.status(200).json(projects);
   } catch (error) {
     console.log("Error in getMyProjects controller", error);
@@ -203,3 +201,15 @@ export const getProject = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
+export const getUserProjects=async(req,res)=>{
+  try {
+    const userId=req.params.userId;
+    const projects = await Project.find({collaborators:userId});
+    res.status(200).json(projects);
+  } catch (error) {
+    console.log("Error in getUserProjects controller",error);
+    res.status(500).json({message:"Internal Server Error"});
+  }
+}

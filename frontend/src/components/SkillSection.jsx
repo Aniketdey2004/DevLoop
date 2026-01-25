@@ -31,7 +31,7 @@ export default function SkillSection({userData,isOwnProfile, onSave}) {
       <div className='flex flex-wrap gap-2'>
           {skills.length>0?(
             skills.map((skill,index)=>(
-                <span key={index} className='bg-green-500 text-white px-3 py-1 rounded-full text-sm mb-2 flex items-center gap-1'>
+                <span key={index} className='bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm border border-green-200'>
                   {skill}
                   {isEditing && (
                     <button onClick={()=>handleDeleteSkill(skill)} className='text-red-500 hover:cursor-pointer'>

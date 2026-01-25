@@ -56,14 +56,12 @@ export default function SignUpPage() {
   return (
     <div className='min-h-screen flex justify-center items-center bg-base-300 px-4'>
       <div className='max-w-6xl w-full bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl min-h-[90vh] md:min-h-[70vh] lg:min-h-[90vh] flex'>
-        {/* Left section */}
         <div className='w-full md:w-1/2 flex flex-col justify-center items-center p-4'>
           <div className='mb-8'>
             <h1 className='text-4xl font-bold text-center text-lime-800 mt-8 mb-2'>Create your Devloop Account</h1>
             <h2 className='mt-2 text-center font-medium text-lime-600 text-xl mb-4'>Build projects. Find Collaboration. Grow in Public</h2>
           </div>
           <form className='w-full' onSubmit={handleSubmit}>
-            {/* username */}
             <label htmlFor='username' className='auth-input-label'>Username</label>
             <div className='relative mb-3'>
               <CircleUserRound className="auth-input-icon" />
@@ -103,9 +101,8 @@ export default function SignUpPage() {
             />
           </div>
         </div>
-        {/* right Section */}
+       
         <div className='hidden md:block md:w-1/2  relative bg-lime-500 rounded-r-2xl p-4'>
-          {/* <div className='absolute inset-0 bg-lime-900/25 rounded-r-2xl'></div> */}
           <div className='h-full w-full flex flex-col justify-center items-center'>
             <div className='h-[70%]'>
               <img src='./signup.png' alt='signup image' className='w-full h-full' />

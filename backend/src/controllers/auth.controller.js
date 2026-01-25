@@ -46,7 +46,7 @@ export const signup = async (req, res) => {
     generateWebToken(newUser._id, res);
     res.status(201).json({ message: "User Created Successfully" });
 
-    const profileUrl = ENV.CLIENT_URL + "/profile/" + newUser.username;
+    const profileUrl = ENV.FRONTEND_URL + "/profile/" + newUser.username;
     try {
       await sendWelcomeMail(newUser.username, newUser.email, profileUrl);
     } catch (emailError) {

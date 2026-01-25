@@ -17,7 +17,7 @@ const PORT=ENV.PORT || 5000;
 const __dirname = path.resolve();
 
 if(ENV.NODE_ENV!=='production'){
-    app.use(cors({origin:ENV.CLIENT_URL, credentials:true}));
+    app.use(cors({origin:ENV.FRONTEND_URL, credentials:true}));
 }
 
 app.use(express.json({limit:"10mb"}));

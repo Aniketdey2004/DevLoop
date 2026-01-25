@@ -33,11 +33,11 @@ app.use("/api/v1/discussions",discussionRoutes);//discussion routes
 if(ENV.NODE_ENV === "production")
 {
     app.use(express.static(path.join(__dirname,"../frontend/dist")));
-    app.get("*", (_, res) => {
+    
+    app.use((req, res) => {
         res.sendFile(path.resolve(__dirname,"../frontend","dist","index.html"));
     });
 }
-
 app.listen(PORT,()=>{
     console.log(`App is listening on PORT ${PORT}`);
     connectDB();

@@ -90,7 +90,7 @@ export default function SignUpPage() {
             <div className='text-slate-600 text-lg'>or</div>
             <div className='border-b w-[45%] border-slate-600'></div>
           </div>
-          <div className='w-3/5 rounded-lg mt-5 mx-auto'>
+          <div className=' rounded-lg mt-5 mx-auto'>
             <GoogleLogin
               onSuccess={credentialResponse => handleGoogleSubmit(credentialResponse)}
               onError={() => {

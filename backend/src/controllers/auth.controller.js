@@ -132,6 +132,7 @@ export const loginThroughGmail = async (req, res) => {
         username: name,
         profilePic,
       });
+      generateWebToken(user._id, res);
       return res.status(201).json({ message: "User Successfully created" });
     }
     generateWebToken(user._id, res);

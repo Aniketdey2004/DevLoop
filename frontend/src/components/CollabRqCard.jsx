@@ -38,8 +38,8 @@ export default function CollabRqCard({ rq }) {
 
     return (
         <div className='flex items-start gap-3 border rounded-lg p-3 flex-wrap'>
-            <Link to={`/profile/${rq.sender._id}`}>
-                <img src={rq.sender.profilePic || '/avatar.png'} alt='sender image' className='size-10 rounded-full shrink-0 object-cover' />
+            <Link to={`/profile/${rq.sender._id}`} className='shrink-0'>
+                <img src={rq.sender.profilePic || '/avatar.png'} alt='sender image' className='size-10 rounded-full object-cover' />
             </Link>
             <div className='flex-1'>
                 <p className='lg:text-lg'><span className='font-semibold'>{rq.sender.username}</span> sent you a collab request</p>
@@ -55,7 +55,6 @@ export default function CollabRqCard({ rq }) {
                 </Link>
             </div>
             <div className='flex gap-2 shrink-0'>
-                {/* check the button color later */}
                 <button className='btn btn-success btn-xs lg:btn-md bg-green-500 hover:bg-green-700 transition-colors text-white' disabled={isAcceptingRequest || isRejectingRequest} onClick={acceptRequest}>{isAcceptingRequest?<Loader className='animate-spin'/>:"Accept"}</button>
                 <button className='btn btn-outline btn-error btn-xs lg:btn-md' disabled={isAcceptingRequest || isRejectingRequest} onClick={rejectRequest}>
                     {isRejectingRequest?<Loader className='animate-spin'/>:"Reject"}

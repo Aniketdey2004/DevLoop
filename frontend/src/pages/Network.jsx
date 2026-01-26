@@ -135,10 +135,10 @@ export default function Network() {
                                         key={followedUser._id}
                                         className="border border-slate-400 p-4 rounded-lg hover:bg-slate-200 transition-colors flex items-center gap-2 md:gap-4"
                                     >
-                                        <Link to={`/profile/${followedUser._id}`}>
+                                        <Link to={`/profile/${followedUser._id}`} className='shrink-0'>
                                             <img
                                                 src={followedUser.profilePic || './avatar.png'}
-                                                className="size-12 rounded-full shrink-0 object-cover"
+                                                className="size-12 rounded-full  object-cover"
                                             />
                                         </Link>
                                         <div className='flex-1'>
@@ -175,10 +175,10 @@ export default function Network() {
                                                         className="border border-slate-400 p-4 rounded-lg hover:bg-slate-200 transition-colors flex items-center gap-2 md:gap-4"
                                                     >
 
-                                                        <Link  to={`/profile/${user._id}`}>
+                                                        <Link  to={`/profile/${user._id}`} className='shrink-0'>
                                                             <img
                                                                 src={user.profilePic || './avatar.png'}
-                                                                className="size-12 rounded-full shrink-0 object-cover"
+                                                                className="size-12 rounded-full object-cover"
                                                             />
                                                         </Link>
                                                             <div className='flex-1'>
@@ -201,10 +201,10 @@ export default function Network() {
                                                         key={user._id}
                                                         className="border border-slate-400 p-4 rounded-lg hover:bg-slate-200 transition-colors flex items-center gap-2 md:gap-4"
                                                     >
-                                                        <Link className="" to={`/profile/${user._id}`}>
+                                                        <Link  to={`/profile/${user._id}`} className='shrink-0'>
                                                             <img
                                                                 src={user.profilePic || './avatar.png'}
-                                                                className="size-12 rounded-full shrink-0 object-cover"
+                                                                className="size-12 rounded-full  object-cover"
                                                             />
                                                         </Link>
                                                             <div className='flex-1'>

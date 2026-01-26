@@ -108,8 +108,8 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
     <div className='bg-slate-100 p-4 mb-4 shadow rounded-lg'>
       <div className='flex items-center justify-between mb-3'>
         <div className='flex items-center gap-3'>
-          <Link to={`/profile/${post?.author?._id}`}>
-            <img src={post.author.profilePic || "./avatar.png"} className='size-12 rounded-full shrink-0 object-cover' alt='post author' />
+          <Link to={`/profile/${post?.author?._id}`} className='shrink-0'>
+            <img src={post.author.profilePic || "./avatar.png"} className='size-12 rounded-full object-cover' alt='post author' />
           </Link>
           <div>
             <Link to={`/profile/${post?.author?._id}`}>
@@ -178,7 +178,7 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
 
         </div>
       )}
-      {post.image && <img src={post.image} alt='post content' className='w-full mb-4 max-h-[50vh] object-cover' />}
+      {post.image && <img src={post.image} alt='post content' className='w-full mb-4  object-cover' />}
       <div className='flex justify-around mb-4'>
         <button className="flex items-center gap-2 hover:cursor-pointer text-sm lg:text-base" onClick={onLike} disabled={isLikingPost}>
           <ThumbsUp className={isLiked ? "text-blue-500 fill-blue-300" : ""} />
@@ -195,7 +195,7 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
           <div className='overflow-y-auto max-h-70 space-y-4 mb-3'>
             {post.comments.map((comment) => (
               <div className='flex gap-2' key={comment._id}>
-                <Link to={`/profile/${post?.author?._id}`}><img src={comment.user.profilePic || '/avatar.png'} alt={comment.user.username} className='size-12 rounded-full shrink-0 object-cover' /></Link>
+                <Link to={`/profile/${post?.author?._id}`} className='shrink-0'><img src={comment.user.profilePic || '/avatar.png'} alt={comment.user.username} className='size-12 rounded-full object-cover' /></Link>
                 <div>
                   <div className='flex gap-2 items-center'>
                     <h3 className='font-medium'>{comment.user.username}</h3>

@@ -56,7 +56,7 @@ export default function CollabRqCard({ rq }) {
             </div>
             <div className='flex gap-2 shrink-0'>
                 {/* check the button color later */}
-                <button className='btn btn-success btn-xs lg:btn-md bg-green-500 hover:bg-green-700 transition-colors' disabled={isAcceptingRequest || isRejectingRequest} onClick={acceptRequest}>{isAcceptingRequest?<Loader className='animate-spin'/>:"Accept"}</button>
+                <button className='btn btn-success btn-xs lg:btn-md bg-green-500 hover:bg-green-700 transition-colors text-white' disabled={isAcceptingRequest || isRejectingRequest} onClick={acceptRequest}>{isAcceptingRequest?<Loader className='animate-spin'/>:"Accept"}</button>
                 <button className='btn btn-outline btn-error btn-xs lg:btn-md' disabled={isAcceptingRequest || isRejectingRequest} onClick={rejectRequest}>
                     {isRejectingRequest?<Loader className='animate-spin'/>:"Reject"}
                 </button>

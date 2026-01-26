@@ -77,7 +77,7 @@ export default function Project() {
             </p>
           </div>
 
-          <div className="p-6 space-y-4">
+          <div className="p-6 space-y-4 max-h-96 overflow-y-auto hide-scrollbar">
             {isLoadingCollabRq ? (
               <p className="text-slate-500">Loading requests…</p>
             ) : collabRequests.length > 0 ? (

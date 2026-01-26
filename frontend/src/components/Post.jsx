@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from "react-router";
-import { Loader, Trash, ThumbsUp, MessageCircle, Send, Clock, UserX, CircleCheckBig } from 'lucide-react';
+import { Loader, Trash, ThumbsUp, MessageCircle, Send, Clock, UserX, CircleCheckBig, ExternalLink } from 'lucide-react';
 import { formatDistanceToNow } from "date-fns";
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { axiosInstance } from '../lib/axios';
@@ -129,26 +129,53 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
       </div>
       <p className='mb-4 text-sm lg:text-base'>{post.content}</p>
       {post.type === 'collab' && (
-        <div className='mb-4'>
-          <p><span className='text-sm lg:text-base font-semibold'>Title:</span> {post.project.title}</p>
-          <p><span className='text-sm lg:text-base font-semibold'>Description:</span> {post.project.description}</p>
-          <p className='text-sm lg:text-base font-semibold'>Tech Stack</p>
-          <div className='flex flex-wrap gap-2 mt-2'>
-            {post.project.techStack.map((stack, index) => (
-              <span key={index} className='bg-green-500 text-white px-3 py-1 rounded-full text-sm mb-2 flex items-center gap-1'>
-                {stack}
-              </span>
-            ))}
+        <div className='mb-4 space-y-4'>
+          <div>
+            <p className='text-base lg:text-lg font-semibold text-slate-900 tracking-tight'>{post.project.title}</p>
+            <p className='text-sm text-slate-600 mt-1 line-clamp-4'>
+              {post.project.dscription}
+            </p>
           </div>
-          <p><span className='text-sm lg:text-base font-semibold'>Collaborators:</span> {post.project.collaborators.length}</p>
-          <p className='text-sm lg:text-base'>Roles Needed:</p>
-          <div className='flex flex-wrap gap-2 mt-2 '>
-            {post.project.rolesNeeded.map((role, index) => (
-              <span key={index} className='bg-green-500 text-white px-3 py-1 rounded-full text-sm mb-2 flex items-center gap-1'>
-                {role}
-              </span>
-            ))}
+          <div className='flex flex-wrap gap-5 text-sm text-slate-600'>
+            <span>
+              <span className='font-medium text-slate-700 '>Collaborators:</span>&nbsp;{post.project.collaborators.length}
+            </span>
+            <span>
+              <span className='font-medium text-slate-700 '>Roles Needed:</span>&nbsp;{post.project.rolesNeeded.length}
+            </span>
           </div>
+          <div>
+            <p className='text-sm font-medium text-slate-700 mb-1'>Tech Stack</p>
+            <div className='flex flex-wrap gap-2'>
+              {post.project.techStack.map((stack, index) => (
+                <span className='text-xs px-3 py-1 rounded-full bg-green-100 text-green-700 font-medium' key={index}>{stack}</span>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className='text-sm font-medium text-slate-700 mb-1'>Roles Needed</p>
+            <div className='flex flex-wrap gap-2'>
+              {post.project.rolesNeeded.map((role, index) => (
+                <span className='text-xs px-3 py-1 rounded-full border border-green-300 text-green-700 font-medium bg-white' key={index}>{role}</span>
+              ))}
+            </div>
+          </div>
+          <div className="pt-1">
+            <Link
+              to={`/project/${post.project._id}`}
+              className="
+          inline-flex items-center gap-1.5 
+          text-sm font-medium 
+          text-green-600 
+          hover:text-green-700 
+          transition
+        "
+            >
+              View project
+              <ExternalLink size={16} />
+            </Link>
+          </div>
+
         </div>
       )}
       {post.image && <img src={post.image} alt='post content' className='w-full mb-4 max-h-[50vh] object-cover' />}
@@ -208,7 +235,7 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
           <div className='modal-box relative'>
             <h3 className='font-semibold text-lg mb-4'>Are you sure you want to delete?</h3>
             <div className='modal-action'>
-              <button type='button' className='btn btn-success' onClick={()=>{setOpen(false);onDelete()}}>Yes</button>
+              <button type='button' className='btn btn-success' onClick={() => { setOpen(false); onDelete() }}>Yes</button>
               <button className='btn' type='button' onClick={() => setOpen(false)}>
                 Cancel
               </button>

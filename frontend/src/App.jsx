@@ -14,6 +14,7 @@ import { useQuery } from '@tanstack/react-query';
 import { axiosInstance } from './lib/axios';
 import toast from 'react-hot-toast';
 import ProjectPage from './pages/ProjectPage';
+import NotFound from './pages/NotFound';
 
 
 
@@ -54,10 +55,10 @@ function App() {
           <Route path='project/:projectId' element={<ProjectPage/>}/>
           <Route path='project' element={<Project/>}/>
           <Route path='posts/:postId' element={<PostPage/>}/>
-       
         </Route>
         <Route path='/signup' element={!authUser?<SignUpPage/>:<Navigate to={"/"}/>}/>
         <Route path='/login' element={!authUser?<LoginPage/>:<Navigate to={"/"}/>}/>
+        <Route path='*' element={<NotFound/>}/>
       </Routes>
       <Toaster />
     </>

@@ -100,7 +100,7 @@ export default function LoginPage() {
             />
           </div>
         </div>
-        <div className='hidden md:block md:w-1/2  relative bg-lime-600 rounded-r-2xl p-4'>
+        <div className='hidden md:block md:w-1/2  relative bg-lime-500 rounded-r-2xl p-4'>
           <div className='h-full w-full flex flex-col justify-center items-center'>
             <div className='h-[70%]'>
               <img src='./login.png' alt='login image' className='w-full h-full' />

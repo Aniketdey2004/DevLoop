@@ -100,7 +100,7 @@ export default function NotifyCard({ notify }) {
     return (
         <li key={notify._id} className={`bg-white border rounded-lg p-4 hover:shadow-md  hover:cursor-pointer transition-all ${!notify.read ? "border-green-500" : "border-gray-400"}`}>
             <div className='flex items-start gap-2 lg:gap-3'>
-                <Link to={`/profile/${notify.relatedUser._id}`}><img src={notify.relatedUser.profilePic || '/avatar.png'} alt='related user image' className='size-10 rounded-full shrink-0' /></Link>
+                <Link to={`/profile/${notify.relatedUser._id}`}><img src={notify.relatedUser.profilePic || '/avatar.png'} alt='related user image' className='size-10 rounded-full shrink-0 object-cover' /></Link>
                 <div className='flex-1'>
                     <div className="mb-2 flex items-center gap-2 flex-wrap">
                         {renderNotificationIcon(notify.type)}

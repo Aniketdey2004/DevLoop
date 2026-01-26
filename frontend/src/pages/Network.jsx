@@ -112,7 +112,7 @@ export default function Network() {
                                             <Link className="flex items-center gap-2 md:gap-4" to={`/profile/${follower._id}`}>
                                                 <img
                                                     src={follower.profilePic || './avatar.png'}
-                                                    className="size-12 rounded-full"
+                                                    className="size-12 rounded-full object-cover"
                                                 />
                                                 <div>
                                                     <h2 className="font-medium text-sm md:text-base lg:text-lg">{follower.username}</h2>
@@ -138,7 +138,7 @@ export default function Network() {
                                         <Link to={`/profile/${followedUser._id}`}>
                                             <img
                                                 src={followedUser.profilePic || './avatar.png'}
-                                                className="size-12 rounded-full shrink-0"
+                                                className="size-12 rounded-full shrink-0 object-cover"
                                             />
                                         </Link>
                                         <div className='flex-1'>
@@ -178,7 +178,7 @@ export default function Network() {
                                                         <Link  to={`/profile/${user._id}`}>
                                                             <img
                                                                 src={user.profilePic || './avatar.png'}
-                                                                className="size-12 rounded-full shrink-0"
+                                                                className="size-12 rounded-full shrink-0 object-cover"
                                                             />
                                                         </Link>
                                                             <div className='flex-1'>
@@ -204,7 +204,7 @@ export default function Network() {
                                                         <Link className="" to={`/profile/${user._id}`}>
                                                             <img
                                                                 src={user.profilePic || './avatar.png'}
-                                                                className="size-12 rounded-full shrink-0"
+                                                                className="size-12 rounded-full shrink-0 object-cover"
                                                             />
                                                         </Link>
                                                             <div className='flex-1'>

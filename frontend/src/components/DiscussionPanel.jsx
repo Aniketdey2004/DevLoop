@@ -61,7 +61,7 @@ export default function DiscussionPanel() {
                         <div className='flex gap-1 md:gap-3' key={message._id}>
                             <Link to={`/profile/${message.sender._id}`} className='shrink-0'><img
                                 src={message.sender.profilePic || './avatar.png'}
-                                className="size-8 rounded-full"
+                                className="size-8 rounded-full object-cover"
                                 alt="sender profilepic"
                             /></Link>
                             <div className="bg-slate-100 rounded-lg p-3 max-w-xl">

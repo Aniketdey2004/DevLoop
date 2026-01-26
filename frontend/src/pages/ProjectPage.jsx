@@ -87,7 +87,7 @@ export default function ProjectPage() {
                             <div className='space-y-4'>
                                 {project.collaborators.map((collaborator) => (
                                     <div className='flex items-center gap-3' key={collaborator._id}>
-                                        <Link to={`/profile/${collaborator._id}`}><img src={collaborator.profilePic || '/avatar.png'} className='size-10 rounded-full' /></Link>
+                                        <Link to={`/profile/${collaborator._id}`}><img src={collaborator.profilePic || '/avatar.png'} className='size-10 rounded-full object-cover' /></Link>
                                         <div>
                                             <p className='font-medium text-slate-700 text-sm md:text-base'>{collaborator.username}</p>
                                             <p className='

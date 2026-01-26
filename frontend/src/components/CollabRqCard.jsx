@@ -39,7 +39,7 @@ export default function CollabRqCard({ rq }) {
     return (
         <div className='flex items-start gap-3 border rounded-lg p-3 flex-wrap'>
             <Link to={`/profile/${rq.sender._id}`}>
-                <img src={rq.sender.profilePic || '/avatar.png'} alt='sender image' className='size-10 rounded-full shrink-0' />
+                <img src={rq.sender.profilePic || '/avatar.png'} alt='sender image' className='size-10 rounded-full shrink-0 object-cover' />
             </Link>
             <div className='flex-1'>
                 <p className='lg:text-lg'><span className='font-semibold'>{rq.sender.username}</span> sent you a collab request</p>

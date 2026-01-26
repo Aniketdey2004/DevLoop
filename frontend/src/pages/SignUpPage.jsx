@@ -58,8 +58,8 @@ export default function SignUpPage() {
       <div className='max-w-6xl w-full bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl min-h-[90vh] md:min-h-[70vh] lg:min-h-[90vh] flex'>
         <div className='w-full md:w-1/2 flex flex-col justify-center items-center p-4'>
           <div className='mb-8'>
-            <h1 className='text-4xl font-bold text-center text-lime-800 mt-8 mb-2'>Create your Devloop Account</h1>
-            <h2 className='mt-2 text-center font-medium text-lime-600 text-xl mb-4'>Build projects. Find Collaboration. Grow in Public</h2>
+            <h1 className='text-2xl lg:text-4xl font-bold text-center text-lime-800 mt-8 mb-2'>Create your Devloop Account</h1>
+            <h2 className='mt-2 text-center font-medium text-lime-600 lg:text-xl mb-4'>Build projects. Find Collaboration. Grow in Public</h2>
           </div>
           <form className='w-full' onSubmit={handleSubmit}>
             <label htmlFor='username' className='auth-input-label'>Username</label>
@@ -67,13 +67,11 @@ export default function SignUpPage() {
               <CircleUserRound className="auth-input-icon" />
               <input type='text' className='auth-input' id='username' placeholder='Furious004' value={formData.username} onChange={(e) => setFormData({ ...formData, username: e.target.value })} />
             </div>
-            {/* email */}
             <label htmlFor='email' className='auth-input-label'>Email</label>
             <div className='relative mb-3'>
               <MailIcon className="auth-input-icon" />
               <input type='email' className='auth-input' id='email' placeholder='johndoe@gmail.com' value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
             </div>
-            {/* password */}
             <label htmlFor='password' className='auth-input-label'>Password</label>
             <div className='relative mb-3'>
               <LockIcon className="auth-input-icon" />
@@ -92,7 +90,7 @@ export default function SignUpPage() {
             <div className='text-slate-600 text-lg'>or</div>
             <div className='border-b w-[45%] border-slate-600'></div>
           </div>
-          <div className='w-3/5 rounded-lg mt-5'>
+          <div className='w-3/5 rounded-lg mt-5 mx-auto'>
             <GoogleLogin
               onSuccess={credentialResponse => handleGoogleSubmit(credentialResponse)}
               onError={() => {

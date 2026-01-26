@@ -20,7 +20,7 @@ if(ENV.NODE_ENV!=='production'){
     app.use(cors({origin:ENV.FRONTEND_URL, credentials:true}));
 }
 
-app.use(express.json({limit:"10mb"}));
+app.use(express.json({limit:"18mb"}));
 app.use(cookieParser());
 app.use("/api/v1/auth",authRoutes); //authentication routes
 app.use("/api/v1/users",userRoutes); //user routes

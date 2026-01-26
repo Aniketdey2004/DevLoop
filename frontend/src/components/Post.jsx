@@ -109,7 +109,7 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
       <div className='flex items-center justify-between mb-3'>
         <div className='flex items-center gap-3'>
           <Link to={`/profile/${post?.author?._id}`}>
-            <img src={post.author.profilePic || "./avatar.png"} className='size-12 rounded-full shrink-0' alt='post author' />
+            <img src={post.author.profilePic || "./avatar.png"} className='size-12 rounded-full shrink-0 object-cover' alt='post author' />
           </Link>
           <div>
             <Link to={`/profile/${post?.author?._id}`}>
@@ -195,7 +195,7 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
           <div className='overflow-y-auto max-h-70 space-y-4 mb-3'>
             {post.comments.map((comment) => (
               <div className='flex gap-2' key={comment._id}>
-                <Link to={`/profile/${post?.author?._id}`}><img src={comment.user.profilePic || '/avatar.png'} alt={comment.user.username} className='size-12 rounded-full shrink-0' /></Link>
+                <Link to={`/profile/${post?.author?._id}`}><img src={comment.user.profilePic || '/avatar.png'} alt={comment.user.username} className='size-12 rounded-full shrink-0 object-cover' /></Link>
                 <div>
                   <div className='flex gap-2 items-center'>
                     <h3 className='font-medium'>{comment.user.username}</h3>

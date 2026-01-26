@@ -62,7 +62,7 @@ export default function PostCreation() {
   return (
     <div className='bg-slate-50 rounded-lg shadow mb-4 p-4'>
       <div className='flex space-x-3'>
-        <Link to={`/profile/${authUser._id}`}><img src={authUser.profilePic || "./avatar.png"} alt={authUser.username} className='h-12 w-12 rounded-full' /></Link>
+        <Link to={`/profile/${authUser._id}`}><img src={authUser.profilePic || "./avatar.png"} alt={authUser.username} className='h-12 w-12 rounded-full object-cover' /></Link>
         <textarea className="textarea h-28 flex-1 p-4" placeholder="What's on your mind?" onChange={(e) => setContent(e.target.value)} value={content}></textarea>
       </div>
       {image && //if selected image exists

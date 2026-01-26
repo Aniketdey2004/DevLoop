@@ -82,7 +82,6 @@ export default function Layout() {
               </li>
             </Link>
             <Link to="/project">
-              {/* if possible implement the same as notifications here also */}
               <li className='mt-8'>
                 <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Project">
                   <PanelsTopLeft />
@@ -91,7 +90,7 @@ export default function Layout() {
               </li>
             </Link>
             <li className='mt-8'>
-                <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings" onClick={logout}>
+                <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Logout" onClick={logout}>
                   <LogOut />
                   <span className="is-drawer-close:hidden text-xl">Logout</span>
                 </button>

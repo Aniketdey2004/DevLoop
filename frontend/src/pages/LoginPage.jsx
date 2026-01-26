@@ -62,8 +62,8 @@ export default function LoginPage() {
         {/* Left section */}
         <div className='w-full md:w-1/2 flex flex-col justify-center items-center p-4'>
           <div className='mb-8'>
-            <h1 className='text-4xl font-bold text-center text-lime-800 mt-8 mb-2'>Welcome Back, Developer</h1>
-            <h2 className='mt-2 text-center font-medium text-lime-600 text-xl mb-4'>Continue building where you left off</h2>
+            <h1 className='text-2xl lg:text-4xl font-bold text-center text-lime-800 mt-8 mb-2'>Welcome Back, Developer</h1>
+            <h2 className='mt-2 text-center font-medium text-lime-600 lg:text-xl mb-4'>Continue building where you left off</h2>
           </div>
           <form className='w-full' onSubmit={handleSubmit}>
             {/* email */}
@@ -91,7 +91,7 @@ export default function LoginPage() {
             <div className='text-slate-600 text-lg'>or</div>
             <div className='border-b w-[45%] border-slate-600'></div>
           </div>
-          <div className='w-3/5 rounded-lg mt-5'>
+          <div className='w-3/5 rounded-lg mt-5 mx-auto'>
             <GoogleLogin
               onSuccess={credentialResponse => handleGoogleSubmit(credentialResponse)}
               onError={() => {
@@ -100,9 +100,7 @@ export default function LoginPage() {
             />
           </div>
         </div>
-        {/* right Section */}
         <div className='hidden md:block md:w-1/2  relative bg-lime-600 rounded-r-2xl p-4'>
-          {/* <div className='absolute inset-0 bg-lime-900/25 rounded-r-2xl'></div> */}
           <div className='h-full w-full flex flex-col justify-center items-center'>
             <div className='h-[70%]'>
               <img src='./login.png' alt='login image' className='w-full h-full' />

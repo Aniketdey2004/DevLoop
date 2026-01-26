@@ -24,7 +24,7 @@ export default function RecommendedUser({ user }) {
     return (
         <div className='mb-4 flex items-center justify-between gap-1'>
             <Link to={`/profile/${user._id}`} className='flex items-center'>
-                <img src={user.profilePic || "./avatar.png"} alt={user.username} className='h-12 w-12 rounded-full mr-2' />
+                <img src={user.profilePic || "./avatar.png"} alt={user.username} className='h-12 w-12 rounded-full mr-2 object-cover' />
                 <h3 className='font-semibold  truncate'>{user.username}</h3>
             </Link>
             <button

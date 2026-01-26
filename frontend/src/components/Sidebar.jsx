@@ -22,7 +22,7 @@ export default function Sidebar() {
                 style={{backgroundImage:`url("${authUser.bannerImg || "./banner.png"}")`}}
             />
             <Link to={`/profile/${authUser._id}`}>
-                <img src={authUser.profilePic || "./avatar.png"} alt={authUser.username} className='w-20 h-20 rounded-full mt-[-40px] mx-auto'/>
+                <img src={authUser.profilePic || "./avatar.png"} alt={authUser.username} className='w-20 h-20 rounded-full mt-[-40px] mx-auto object-cover'/>
                 <h2 className='text-xl font-semibold mt-2'>{authUser.username}</h2>
             </Link>
             <p className='text-slate-600'>{authUser.headline}</p>

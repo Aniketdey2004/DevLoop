@@ -4,7 +4,7 @@ import { Github } from 'lucide-react';
 export default function GithubComp({ userData, isOwnProfile }) {
 
     const handleGithubRedirect = () => {
-        window.location.href = "http://localhost:8080/api/v1/auth/github";
+        window.location.href = `${import.meta.env.VITE_BACKEND_BASE_URL}/api/v1/auth/github`;
     }
 
     return (

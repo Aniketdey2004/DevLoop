@@ -20,7 +20,6 @@ import ProjectPage from './pages/ProjectPage';
 function App() {
   //each component subsribes to a querykey if the querykey value changes it is rerendered
   //untill there is one subscriber of a cached Data the data will never be garbage collected
-  console.log(import.meta.env.VITE_GOOGLE_CLIENT_ID);
   const {data:authUser, isLoading:isCheckingAuth}=useQuery({
     queryKey:["authUser"],
     queryFn:async()=>{

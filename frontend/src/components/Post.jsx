@@ -195,7 +195,7 @@ export default function Post({ post, authUser, onLike, onDelete, onComment, like
           <div className='overflow-y-auto max-h-70 space-y-4 mb-3'>
             {post.comments.map((comment) => (
               <div className='flex gap-2' key={comment._id}>
-                <Link to={`/profile/${post?.author?._id}`} className='shrink-0'><img src={comment.user.profilePic || '/avatar.png'} alt={comment.user.username} className='size-12 rounded-full object-cover' /></Link>
+                <Link to={`/profile/${comment.user._id}`} className='shrink-0'><img src={comment.user.profilePic || '/avatar.png'} alt={comment.user.username} className='size-12 rounded-full object-cover' /></Link>
                 <div>
                   <div className='flex gap-2 items-center'>
                     <h3 className='font-medium'>{comment.user.username}</h3>
